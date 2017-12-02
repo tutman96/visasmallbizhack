@@ -35,7 +35,7 @@ export async function getCurrentDepositRates(balance: string, loanAmount: string
     
     return {
         term: response.DepositRates.RatesInfo.Term,
-        interestRate: response.DepositRates.RatesInfo.Rates.InterestRate,
+        interestRate: +response.DepositRates.RatesInfo.Rates.InterestRate,
         accountBalanceTiers: response.DepositRates.RatesInfo.Rates.AccountBalanceTiers
     }
 }
