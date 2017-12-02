@@ -1,3 +1,23 @@
+<div class="bar">
+    <form [formGroup]="searchForm" novalidate (ngSubmit)="onSubmit(searchForm)" >
+        <div class="form-group search-group">
+          <input class="form-control form-controls" formControlName="business" placeholder="Business Type" (keyup)="onKey(searchForm)">
+          <input class="form-control form-controls" formControlName="zip" placeholder="Zip">
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               {{selectedRadius}}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" (click)="changeRadius('10 mile radius')">15 miles</a>
+                <a class="dropdown-item" (click)="changeRadius('25 mile radius')">25 miles</a>
+                <a class="dropdown-item" (click)="changeRadius('50 mile radius')">50 miles</a>
+              </div>
+            </div>
+          <button class="btn btn-primary" type="submit" [routerLink]="['/crisis-center']">GO</button>
+        </div>
+      </form>
+</div>
+
 <agm-map [latitude]="lat" [longitude]="lng">
   <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 </agm-map>

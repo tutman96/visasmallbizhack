@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+// Conps
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { CommandCenterComponent } from './command-center/command-center.component';
@@ -9,15 +12,19 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { MapApiComponent } from './map-api/map-api.component';
 import { GmapsService } from './services/gmaps.service';
 import { HttpClient } from '@angular/common/http';
+
+// Modules
+import { SharedModule } from 'primeng/primeng';
+import { DropdownModule } from 'primeng/primeng';
 import { AgmCoreModule } from '@agm/core';
 
-// Import HttpClientModule from @angular/common/http
-import {HttpClientModule} from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
     path: 'crisis-center',
-    component: CommandCenterComponent },
+    component: CommandCenterComponent,
+    data : {formData : 'data'}
+  },
   {
     path: 'welcome',
     component: LandingComponent
@@ -42,8 +49,12 @@ const appRoutes: Routes = [
     MapApiComponent
   ],
   imports: [
+    SharedModule,
+    DropdownModule,
     BrowserModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBAclDpl9PkAYOsKn420KeLCmctF_0Sjxk'
     }),
