@@ -15,57 +15,31 @@ app.use(expressWinston.logger({
 	colorize: true,
 }));
 
-import VisaClient = require('./library/visawebapi');
+const asyncMiddleware = fn =>
+(req, res, next) => {
+	Promise.resolve(fn(req, res, next))
+		.catch(next);
+};
 
-app.get("/api/visa/merchant-measurement", async (req, res) => {
-	let response = await VisaClient.post("merchantmeasurement/v1/merchantbenchmark", {
-		"requestData": {
-			"naicsCodes": [
-				""
-			],
-			"merchantCategoryCodes": [
-				"Fast Food Restaurants"
-			],
-			"merchantCategoryGroupsCodes": [
-				""
-			],
-			"merchantCountry": "840",
-			"postalCodeList": [
-				""
-			],
-			"msaList": [
-				"7362"
-			],
-			"countrySubdivisionList": [
-				""
-			],
-			"monthList": [
-				"201706"
-			],
-			"cardPresentIndicator": "CARDPRESENT",
-			"accountFundingSource": [
-				"All"
-			],
-			"eciIndicator": [
-				"All"
-			],
-			"platformID": [
-				"All"
-			],
-			"posEntryMode": [
-				"All"
-			],
-			"groupList": [
-				"standard",
-				"cardholder",
-				"cbreasoncode"
-			]
-		}
-	})
-	
-	res.json(response);
-})
+import merchantMeasurement = require('./services/merchant-measurement');
 
+app.get("/api/visa/merchant-measurement", asyncMiddleware(async (req, res) => {
+	var zipCode = req.query['zip'];
+	if (!zipCode) throw new Error("Zip query not provided");
+
+	var measurement = await merchantMeasurement.getMeasurementByZipcode(zipCode);
+
+	res.json(measurement);
+}))
+
+app.use(expressWinston.errorLogger({
+	transports: [
+		new winston.transports.Console({
+			json: true,
+			colorize: true
+		})
+	]
+}));
 app.listen(8080, () => {
 	console.log("Express app listening on port 8080");
 })
