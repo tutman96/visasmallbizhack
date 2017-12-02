@@ -75,6 +75,10 @@ export class MapApiComponent implements OnInit {
     this.heatmap.set('data', heatmapData);
     this.heatmap.setMap(this.map);
   }
+
+  toggleHeat = () => {
+    this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
+  }
 }
 
 
