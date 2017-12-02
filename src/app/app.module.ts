@@ -9,6 +9,9 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { CommandCenterComponent } from './command-center/command-center.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MapApiComponent } from './map-api/map-api.component';
+import { GmapsService } from './services/gmaps.service';
+import { HttpClient } from '@angular/common/http';
 
 // Modules
 import { SharedModule } from 'primeng/primeng';
@@ -26,6 +29,10 @@ const appRoutes: Routes = [
     path: 'welcome',
     component: LandingComponent
   },
+  {
+    path: 'map-api',
+    component: MapApiComponent
+  },
   { path: '',
     redirectTo: '/welcome',
     pathMatch: 'full'
@@ -38,7 +45,8 @@ const appRoutes: Routes = [
     AppComponent,
     LandingComponent,
     CommandCenterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    MapApiComponent
   ],
   imports: [
     SharedModule,
@@ -54,7 +62,7 @@ const appRoutes: Routes = [
       appRoutes
     )
   ],
-  providers: [],
+  providers: [GmapsService, ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
