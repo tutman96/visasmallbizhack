@@ -1,3 +1,17 @@
+.bar {
+    padding: 16px;
+    background: transparent;
+    position: absolute;
+    width: 100%;
+    z-index: 100000;
+}
+.search-group {
+    display: flex;
+}
+.form-controls, .dropdown { 
+    margin-right: 26px; 
+}
+
 agm-map {
-    height: 300px;
+    height: 500px;
 }

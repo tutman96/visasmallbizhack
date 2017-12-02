@@ -19,6 +19,7 @@
 
  /* BootSTrap */
 .btn-primary {
-    background-color: transparent;
+    background-color: white;
     border-color: white;
+    color: blue;
 }

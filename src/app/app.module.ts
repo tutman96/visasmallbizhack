@@ -1,18 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+// Conps
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { CommandCenterComponent } from './command-center/command-center.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
+// Modules
+import { SharedModule } from 'primeng/primeng';
+import { DropdownModule } from 'primeng/primeng';
 import { AgmCoreModule } from '@agm/core';
 
-// Import HttpClientModule from @angular/common/http
-import {HttpClientModule} from '@angular/common/http';
-
-import { ReactiveFormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   {
@@ -39,8 +41,11 @@ const appRoutes: Routes = [
     PageNotFoundComponent
   ],
   imports: [
+    SharedModule,
+    DropdownModule,
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBAclDpl9PkAYOsKn420KeLCmctF_0Sjxk'

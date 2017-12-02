@@ -5,6 +5,7 @@
     height: 100%; /*same height as jumbotron */
     top:0;
     left:0;
+    background-size: cover;
   }
 .container-landing {
     padding-top: 50px;
