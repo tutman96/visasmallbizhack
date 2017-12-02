@@ -9,6 +9,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { MapApiComponent } from './map-api/map-api.component';
 import { GmapsService } from './services/gmaps.service';
 import { HttpClient } from '@angular/common/http';
+import { AgmCoreModule } from '@agm/core';
+
+// Import HttpClientModule from @angular/common/http
+import {HttpClientModule} from '@angular/common/http';
+
 const appRoutes: Routes = [
   {
     path: 'crisis-center',
@@ -38,6 +43,10 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBAclDpl9PkAYOsKn420KeLCmctF_0Sjxk'
+    }),
     RouterModule.forRoot(
       appRoutes
     )
