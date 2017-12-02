@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-command-center',
@@ -11,7 +12,9 @@ export class CommandCenterComponent implements OnInit {
   lat = 51.678418;
   lng = 7.809007;
 
-  constructor() { }
+  formData;
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
   }

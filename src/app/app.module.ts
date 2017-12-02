@@ -17,7 +17,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 const appRoutes: Routes = [
   {
     path: 'crisis-center',
-    component: CommandCenterComponent },
+    component: CommandCenterComponent,
+    data : {formData : 'data'}
+  },
   {
     path: 'welcome',
     component: LandingComponent

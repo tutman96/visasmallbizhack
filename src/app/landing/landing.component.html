@@ -4,11 +4,11 @@
     <p class="white">A merchant comparison tool powered by Visa's Merchant Comparison API</p>
     <div class="btn-top">
       <button class="btn btn-primary" *ngIf="!isForm" (click)="isForm = true;">GET STARTED</button>
-      <form [formGroup]="searchForm" novalidate *ngIf="isForm">
+      <form [formGroup]="searchForm" novalidate *ngIf="isForm" (ngSubmit)="onSubmit(searchForm)" >
           <div class="form-group search-group">
-            <input class="form-control" formControlName="business" placeholder="Business Type">
+            <input class="form-control" formControlName="business" placeholder="Business Type" (keyup)="onKey(searchForm)">
             <input class="form-control" formControlName="zip" placeholder="Zip">
-            <button class="btn btn-primary" type="submit" routerLink="/crisis-center">GO</button>
+            <button class="btn btn-primary" type="submit" [routerLink]="['/crisis-center']">GO</button>
           </div>
         </form>
     </div>
