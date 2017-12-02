@@ -32,6 +32,24 @@ app.get("/api/visa/merchant-measurement", asyncMiddleware(async (req, res) => {
 	res.json(measurement);
 }))
 
+import depositRate = require('./services/deposit-rates');
+
+app.get("/api/usbank/deposit-rates", asyncMiddleware(async (req, res) => {
+	var balance = req.query['balance'];
+	var loanAmount = req.query['loanAmount'];
+	var term = req.query['term'];
+	var zipcode = req.query['zipcode'];
+
+	if (!balance) throw new Error("Balance query not provided");
+	if (!loanAmount) throw new Error("Loan amount query not provided");
+	if (!term) throw new Error("Term query not provided");
+	if (!zipcode) throw new Error("Zipcode query not provided");
+
+	var rate = await depositRate.getCurrentDepositRates(balance, loanAmount, term, zipcode);
+
+	res.json(rate);
+}))
+
 app.use(expressWinston.errorLogger({
 	transports: [
 		new winston.transports.Console({
