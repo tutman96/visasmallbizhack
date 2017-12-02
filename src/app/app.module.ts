@@ -7,6 +7,8 @@ import { LandingComponent } from './landing/landing.component';
 import { CommandCenterComponent } from './command-center/command-center.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
+import { AgmCoreModule } from '@agm/core';
+
 const appRoutes: Routes = [
   {
     path: 'crisis-center',
@@ -31,6 +33,9 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBAclDpl9PkAYOsKn420KeLCmctF_0Sjxk'
+    }),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }
