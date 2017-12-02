@@ -12,6 +12,8 @@ import { AgmCoreModule } from '@agm/core';
 // Import HttpClientModule from @angular/common/http
 import {HttpClientModule} from '@angular/common/http';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 const appRoutes: Routes = [
   {
     path: 'crisis-center',
@@ -37,6 +39,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBAclDpl9PkAYOsKn420KeLCmctF_0Sjxk'
     }),

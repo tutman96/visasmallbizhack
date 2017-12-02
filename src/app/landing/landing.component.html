@@ -1,3 +1,16 @@
-<p>
-  <button class="btn btn-primary" routerLink="/crisis-center">GET STARTED</button>
-</p>
+<div class="jumbotron bg">
+  <div class="text-center center container-landing">
+    <h1 class="white">WELCOME TO SCOUT</h1>
+    <p class="white">A merchant comparison tool powered by Visa's Merchant Comparison API</p>
+    <div class="btn-top">
+      <button class="btn btn-primary" *ngIf="!isForm" (click)="isForm = true;">GET STARTED</button>
+      <form [formGroup]="searchForm" novalidate *ngIf="isForm">
+          <div class="form-group search-group">
+            <input class="form-control" formControlName="business" placeholder="Business Type">
+            <input class="form-control" formControlName="zip" placeholder="Zip">
+            <button class="btn btn-primary" type="submit" routerLink="/crisis-center">GO</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
