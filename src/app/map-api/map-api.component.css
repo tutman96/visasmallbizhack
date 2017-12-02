@@ -1,0 +1,10 @@
+.map-nav {
+    background: #192161;
+    font-family: 'Raleway', sans-serif;
+    border-bottom: 3px solid #FBD110;
+}
+
+.brand-text {
+    font-weight: bold;
+    padding-left:10px;
+}
