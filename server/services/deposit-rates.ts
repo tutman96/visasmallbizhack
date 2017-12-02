@@ -34,8 +34,8 @@ export async function getCurrentDepositRates(balance: string, loanAmount: string
         loanAmount + "&Term=" + term + "&application=test&branchnumber=1&categoryid=37&output=json&zipcode=" + zipcode);
     
     return {
-        Term: response.DepositRates.RatesInfo.Term,
-        InterestRate: response.DepositRates.RatesInfo.Rates.InterestRate,
-        AccountBalanceTiers: response.DepositRates.RatesInfo.Rates.AccountBalanceTiers
+        term: response.DepositRates.RatesInfo.Term,
+        interestRate: response.DepositRates.RatesInfo.Rates.InterestRate,
+        accountBalanceTiers: response.DepositRates.RatesInfo.Rates.AccountBalanceTiers
     }
 }
