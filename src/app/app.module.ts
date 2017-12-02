@@ -13,6 +13,8 @@ import { MapApiComponent } from './map-api/map-api.component';
 import { GmapsService } from './services/gmaps.service';
 import { HttpClient } from '@angular/common/http';
 
+import { MerchantMeasurementService } from './services/merchant-measurement.service';
+
 // Modules
 import { SharedModule } from 'primeng/primeng';
 import { DropdownModule } from 'primeng/primeng';
@@ -62,7 +64,7 @@ const appRoutes: Routes = [
       appRoutes
     )
   ],
-  providers: [GmapsService, ],
+  providers: [GmapsService, MerchantMeasurementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
