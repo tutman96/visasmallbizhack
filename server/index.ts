@@ -16,10 +16,10 @@ app.use(expressWinston.logger({
 }));
 
 const asyncMiddleware = fn =>
-(req, res, next) => {
-	Promise.resolve(fn(req, res, next))
-		.catch(next);
-};
+	(req, res, next) => {
+		Promise.resolve(fn(req, res, next))
+			.catch(next);
+	};
 
 import merchantMeasurement = require('./services/merchant-measurement');
 
@@ -48,6 +48,20 @@ app.get("/api/usbank/deposit-rates", asyncMiddleware(async (req, res) => {
 	var rate = await depositRate.getCurrentDepositRates(balance, loanAmount, term, zipcode);
 
 	res.json(rate);
+}))
+
+import walkScore = require('./services/walkscore');
+
+app.get("/api/walkscore", asyncMiddleware(async (req, res) => {
+	var lat = req.query['lat'];
+	var long = req.query['long'];
+	if (!lat || !long) throw new Error("Lat and long not provided");
+
+	var score = await walkScore.getWalkScore({ lat, long });
+	
+	res.json({
+		score
+	});
 }))
 
 app.use(expressWinston.errorLogger({
