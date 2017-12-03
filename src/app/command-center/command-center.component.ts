@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DropdownModule, ChartModule } from 'primeng/primeng';
 import { ApiService } from '../services/api.service';
-import { GmapsService } from '../services/gmaps.service';
+import { GmapsService, Place } from '../services/gmaps.service';
+
 import _ from 'lodash';
 
 @Component({
@@ -80,7 +81,7 @@ export class CommandCenterComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private api: ApiService,
-    private gapi: GmapsService
+    private gapi: GmapsService,
   ) {
     this.searchForm = this.fb.group({
       business: ['', Validators.required],

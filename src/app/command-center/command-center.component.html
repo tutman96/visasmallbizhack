@@ -1,12 +1,4 @@
-<div class="bar">
-  <form [formGroup]="searchForm" novalidate (ngSubmit)="onSubmit(searchForm)">
-    <div class="form-group search-group">
-      <input class="form-control form-controls" formControlName="business" placeholder="Business Type" (keyup)="onKey(searchForm)">
-      <input class="form-control form-controls" formControlName="zip" placeholder="Zip">
-      <button class="btn btn-primary" type="submit" [routerLink]="['/crisis-center']">GO</button>
-    </div>
-  </form>
-</div>
+<!-- <app-map-api></app-map-api> -->
 
 <div class="container pt-5">
   <h5>Dashboard</h5>
@@ -26,6 +18,45 @@
       <div class="card mt-4">
         <div class="card-title">
           <p>Competition</p>
+        </div>
+        <div class="card-title">
+          <div>
+            <h1>38</h1>
+            <p>Total Competitors</p>
+          </div>
+          <div>
+            <h1>4.5</h1>
+            <p>Avg. Competitor Rating</p>
+          </div>
+        </div>
+        <p>TOP 3 COMPETITORS</p>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">NAME</th>
+                    <th scope="col">RATING</th>
+                    <th scope="col">PRICE POINT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>China Star</td>
+                    <td>2.5</td>
+                    <td>$$$</td>
+                  </tr>
+                  <tr>
+                    <td>Thai Kitchen</td>
+                    <td>2.5</td>
+                    <td>$$</td>
+                  </tr>
+                  <tr>
+                    <td>Ru Sans Sushi</td>
+                    <td>2.5</td>
+                    <td>$$$$</td>
+                  </tr>
+                </tbody>
+              </table>
         </div>
       </div>
     </div>
