@@ -81,7 +81,102 @@
             </div>
         </div>
         <div class="dash-content">
-            Test
+                <div class="container pt-5">
+                        <h5>Dashboard</h5>
+                        <div class="row">
+                      
+                          <div class="col-md-6">
+                            <div class="card">
+                              <div class="card-title">
+                                <p>Merchant Measurement</p>
+                                <div>
+                                  <button (click)="toggleBar('yoy')">Year</button>
+                                  <button (click)="toggleBar('mom')">Month</button>
+                                </div>
+                              </div>
+                              <p-chart *ngIf="finished" type="horizontalBar" [options]="options" [data]="data" [width]="100" [height]="50"></p-chart>
+                            </div>
+                            <div class="card mt-4">
+                              <div class="card-title">
+                                <p>Competition</p>
+                              </div>
+                              <div class="card-title">
+                                <div>
+                                  <h1>38</h1>
+                                  <p>Total Competitors</p>
+                                </div>
+                                <div>
+                                  <h1>4.5</h1>
+                                  <p>Avg. Competitor Rating</p>
+                                </div>
+                              </div>
+                              <p>TOP 3 COMPETITORS</p>
+                              <div>
+                                  <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">NAME</th>
+                                          <th scope="col">RATING</th>
+                                          <th scope="col">PRICE POINT</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>China Star</td>
+                                          <td>2.5</td>
+                                          <td>$$$</td>
+                                        </tr>
+                                        <tr>
+                                          <td>Thai Kitchen</td>
+                                          <td>2.5</td>
+                                          <td>$$</td>
+                                        </tr>
+                                        <tr>
+                                          <td>Ru Sans Sushi</td>
+                                          <td>2.5</td>
+                                          <td>$$$$</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                              </div>
+                            </div>
+                          </div>
+                      
+                          <div class="col-md-6">
+                            <div class="card">
+                              <div class="card-title">
+                                <p>Loan Calculator</p>
+                              </div>
+                              <div class="row">
+                                <div class="loanForm col-md-6">
+                                  <form [formGroup]="loanForm" novalidate (ngSubmit)="onSubmitLoan(loanForm.controls)">
+                                    <div class="form-group">
+                                      <input class="form-control" type="number" formControlName="balance" placeholder="Balance">
+                                      <input class="form-control mt-2" type="number" formControlName="loanAmount" placeholder="Loan Amount">
+                                      <input class="form-control mt-2" type="text" formControlName="term" placeholder="Term">
+                                      <input class="form-control mt-2" type="text" formControlName="zipcode" placeholder="Zip Code">
+                                      <button class="btn btn-green mt-2" type="submit" [routerLink]="['/crisis-center']">SUBMIT</button>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="loanInfo col-md-6">
+                                  <h1>5.1%</h1>
+                                  <p>Interest Rate</p>
+                                  <a>Apply</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card mt-4">
+                              <div class="card-title">
+                                <p>Walkability</p>
+                              </div>
+                              <h1>{{walk.datasets[0].data[0]}}%</h1>
+                              <p>{{walkGrade}}</p>
+                              <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk"></p-chart>
+                            </div>
+                          </div>
+                        </div>
+                      </div>                      
         </div>
     </div>
 </div>

@@ -3,6 +3,8 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { GmapsService, Place } from '../services/gmaps.service';
 import { ApiService } from '../services/api.service';
+import _ from 'lodash';
+
 declare const google: any;
 @Component({
   selector: 'app-map-api',
@@ -22,13 +24,63 @@ export class MapApiComponent implements OnInit {
   chartOptions: any;
   averageRating: any = 10;
   test: any = 'test';
+
+  // dash stuff
+  loanForm: FormGroup;
+  formData;
+  allMMData = {};
+  isYoy = true;
+  isMom = false;
+  finished = false;
+  finishedWalk = false;
+  walkGrade: string;
+  data = {
+    labels: [
+      'Sales Volume Growth YoY',
+      'Sales Transaction Count Growth YoY',
+      'Spend Outside Geography',
+      'Average Transaction Frequencey'
+    ],
+    datasets: [
+        {
+            label: '',
+            data: [],
+            fill: false,
+            borderColor: '#4bc0c0'
+        }
+    ]
+  };
+  options = {
+    title: {
+        display: false,
+        text: 'My Title',
+        fontSize: 16
+    },
+    legend: {
+        display: false
+    }
+  };
+  walk = {
+    labels: [],
+    datasets: [
+        {
+            data: [],
+            backgroundColor: [
+                "#70D56F"
+            ],
+            hoverBackgroundColor: [
+                "#70D56F"
+            ]
+        }]
+  };
+
   constructor(
     private changeRef: ChangeDetectorRef,
     private mapApi: GmapsService,
     private route: ActivatedRoute,
     private apiService: ApiService,
     private fb: FormBuilder,
-    private router: Router,
+    private router: Router
   ) {
     this.searchForm = this.fb.group({
       business: ['', Validators.required],

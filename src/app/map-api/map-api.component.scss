@@ -20,7 +20,7 @@
 
 #googleMap {
     width:100vw;
-    height: calc(100vh - 270px);
+    height: 100vh;
     position: relative;
     z-index: 1;
 }
@@ -98,7 +98,6 @@
     bottom: 0;
     left: 0;
     right:0;
-    overflow: hidden;
 }
 
 .dash-panel {
@@ -131,4 +130,33 @@
         border-bottom-right-radius: 5px;
         border-bottom-left-radius: 5px;
     }
+}
+
+.bar {
+    padding: 16px;
+    background: transparent;
+    position: absolute;
+    width: 100%;
+    z-index: 100000;
+}
+.search-group {
+    display: flex;
+}
+.form-controls, .dropdown { 
+    margin-right: 26px; 
+}
+
+.card {
+    border: 2px solid #EEEEEE;
+    padding: 20px;
+}
+.card-title {
+    display: flex;
+    justify-content: space-between;
+}
+.loanInfo {
+}
+
+.table thead th {
+    border-bottom: 2px solid blue;
 }
