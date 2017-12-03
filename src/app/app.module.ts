@@ -52,8 +52,8 @@ const appRoutes: Routes = [
   ],
   imports: [
     SharedModule,
-    DropdownModule,
     ChartModule,
+    DropdownModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
