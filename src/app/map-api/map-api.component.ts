@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GmapsService, Place } from '../services/gmaps.service';
@@ -10,7 +10,6 @@ declare const google: any;
   styleUrls: ['./map-api.component.scss']
 })
 export class MapApiComponent implements OnInit {
-  @ViewChild('map') mapel: ElementRef;
   searchForm: FormGroup;
   map: any;
   heatmap: any;
@@ -18,11 +17,13 @@ export class MapApiComponent implements OnInit {
   visaData: any = null;
   salesYoY: boolean = true;
   transYoY: boolean = true;
+  showDash: boolean = false;
   chartData: any;
   chartOptions: any;
   averageRating: any = 10;
   test: any = 'test';
   constructor(
+    private changeRef: ChangeDetectorRef,
     private mapApi: GmapsService,
     private route: ActivatedRoute,
     private apiService: ApiService,
@@ -224,6 +225,7 @@ export class MapApiComponent implements OnInit {
 
   getPlaceData = () => {
     this.test = this.mapApi.getTopPlaces(4);
+    this.changeRef.detectChanges();
   }
 
   prepPieChart = (outpercent: number) => {
@@ -249,6 +251,11 @@ export class MapApiComponent implements OnInit {
         }
       }
     };
+  }
+
+
+  toggleDash  = () => {
+    this.showDash  = !this.showDash;
   }
 
 
