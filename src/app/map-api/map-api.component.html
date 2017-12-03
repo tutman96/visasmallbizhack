@@ -167,9 +167,6 @@
                                             <input class="form-control mt-2" type="text" formControlName="term" placeholder="Term">
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control mt-2" type="text" formControlName="zip" placeholder="Zipcode">
-                                        </div>
-                                        <div class="form-group">
                                             <button class="btn btn-gold" type="submit" [disabled]="!loanForm.valid">Get Estimate</button>
                                         </div>
                                     </form>
@@ -192,8 +189,8 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <a href="https://www.usbank.com/small-business/credit-financing/business-loans.html" class="btn btn-gold">Apply</a>
-                                    <button type="button" class="btn btn-blue" (click)="resetLoanEst()">Reset</button>
+                                    <button type="button" class="btn btn-blue" (click)="resetLoanEst()">Edit</button>
+                                    <a href="https://www.usbank.com/small-business/credit-financing/business-loans.html" class="btn btn-link float-right">Apply on usbank.com</a>
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ declare const google: any;
   styleUrls: ['./map-api.component.scss']
 })
 export class MapApiComponent implements OnInit {
+  zip: string;
   searchForm: FormGroup;
   map: any;
   heatmap: any;
@@ -112,17 +113,16 @@ export class MapApiComponent implements OnInit {
 
     this.loanForm = this.fb.group({
       loanAmount: ['', Validators.required],
-      zip: ['', Validators.required],
       term: ['', Validators.required]
     });
 
     this.route.queryParams.subscribe((data) => {
       console.log(data);
       if (data.zip && data.business) {
+        this.zip = data.zip;
         this.getData(data.zip, data.business);
         this.getVisaData(data.zip);
         this.searchForm.patchValue(data);
-        this.loanForm.patchValue(data);
       }
       else {
         this.getData('30307', 'Sushi');
@@ -303,7 +303,7 @@ export class MapApiComponent implements OnInit {
 
 
   onSubmitLoan() {
-    this.apiService.getDepositRates(10000, this.loanForm.value.loanAmount, this.loanForm.value.term, this.loanForm.value.zip).subscribe(rate => {
+    this.apiService.getDepositRates(10000, this.loanForm.value.loanAmount, this.loanForm.value.term, this.zip).subscribe(rate => {
       this.currentRate = rate;
       console.log(this.currentRate);
     });
