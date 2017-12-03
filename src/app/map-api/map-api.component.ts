@@ -83,15 +83,18 @@ export class MapApiComponent implements OnInit {
       {
         data: [],
         backgroundColor: [
-          "#70D56F"
-        ],
-        hoverBackgroundColor: [
-          "#70D56F"
+          '#192161',
+          '#CCC'
         ]
       }]
   };
   comData = false;
   competitors: any;
+  walkOptions = {
+    tooltips: {
+      enabled: false
+    }
+  };
 
   constructor(
     private changeRef: ChangeDetectorRef,
@@ -322,12 +325,10 @@ export class MapApiComponent implements OnInit {
       this.map.setCenter(zipGeometry.location);
       this.map.fitBounds(zipGeometry.bounds);
 
-      this.mapApi.loadPlaces('chinese').subscribe((places) => {
+      this.mapApi.loadPlaces(term).subscribe((places) => {
         this.getPlaceData();
         this.setMarkers(places);
         this.heatMap(places);
-        this.competitors = this.mapApi.getTopPlaces();
-        console.log(this.competitors);
       });
     });
   }

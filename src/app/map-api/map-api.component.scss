@@ -76,12 +76,16 @@
 
   
 }
-.fa-star {
+.main-star {
     color:#FBD110;
     font-size: 30px;
     line-height: 50px;
     position: relative;
     top: -10px;
+}
+
+.fa-star {
+    color:#FBD110;
 }
 .toggle-inputs {
     position: relative;
@@ -184,4 +188,35 @@
 }
 .logo-title{
     padding-right: 10px;
+}
+.table-rating{
+    font-size: 20px;
+    line-height: 0;
+    position: relative;
+    top: 1px;
+    left: 2px;
+}
+
+.walk-card {
+    height:493px;
+}
+
+.walk-out {
+    position: absolute;
+    top: 40%;    
+    left:50%;
+    transform: translate(-50%, -30%);
+    text-align:center;
+
+    p {
+        font-size: .7rem;
+    }
+}
+
+h3 {
+    text-align: center;
+}
+
+.compete-table {
+    margin: 0;
 }

@@ -73,7 +73,7 @@
               <h3>Avg Competition Rating</h3>
               <div class="amount-output">
                 {{ test.averageRating }}
-                <span class="fa fa-star"></span>
+                <span class="fa fa-star main-star"></span>
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@
                                 </div>
                                 <p>TOP 4 COMPETITORS</p>
                                 <div>
-                                  <table class="table">
+                                  <table class="table compete-table">
                                     <thead>
                                       <tr>
                                         <th scope="col">NAME</th>
@@ -136,24 +136,10 @@
                                       <tr>
                                         <td>{{joint.name}}</td>
                                         <td>{{joint.rating}}
-                                          <span style="font-size: 20px;" class="fa fa-star"></span>
+                                          <span class="fa fa-star table-rate"></span>
                                         </td>
-                                        <td>$$$</td>
+                                        <td>{{joint.price_level != null ? "$".repeat(joint.price_level) : ""}}</td>
                                       </tr>
-                                      <!-- <tr>
-                                        <td>Thai Kitchen</td>
-                                        <td>2.5
-                                          <span style="font-size: 20px;" class="fa fa-star"></span>
-                                        </td>
-                                        <td>$$</td>
-                                      </tr>
-                                      <tr>
-                                        <td>Ru Sans Sushi</td>
-                                        <td>2.5
-                                          <span style="font-size: 20px;" class="fa fa-star"></span>
-                                        </td>
-                                        <td>$$$$</td>
-                                      </tr> -->
                                     </tbody>
                                   </table>
                                 </div>
@@ -211,7 +197,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card mt-4">
+                        <div class="card mt-4 walk-card ">
                             <div class="card-title">
                                 <div class="logotitle">
                                     <span class="logo-title">
@@ -220,11 +206,11 @@
                                     <p>Walkability</p>
                                 </div>
                             </div>
-                            <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk"></p-chart>
-                            <div style="text-align:center;">
+                            <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk" [options]="walkOptions"></p-chart>
+                            <div class="walk-out">
                                 <h1>{{walk.datasets[0].data[0]}}%</h1>
-                                <p>{{walkGrade}}</p>
                             </div>
+                            <h3>{{walkGrade}}</h3>
                         </div>
                     </div>
 
