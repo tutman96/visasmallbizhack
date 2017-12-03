@@ -15,6 +15,8 @@ export class NewMapComponent implements OnInit {
   map: any;
   heatmap: any;
   visaData: any = null;
+  salesYoY: boolean = true;
+  transYoY: boolean = true;
   constructor(
     private mapApi: GmapsService,
     private apiService: ApiService,
@@ -99,6 +101,14 @@ export class NewMapComponent implements OnInit {
     this.apiService.getMeasurement('30307').subscribe((response) => {
       this.visaData = response;
     });
+  }
+
+  toggleSales = (value: boolean) => {
+    this.salesYoY = !this.salesYoY;
+  }
+
+  toggleTrans = (value: boolean) => {
+    this.transYoY = !this.transYoY;
   }
 }
 

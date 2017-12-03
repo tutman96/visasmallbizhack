@@ -1,0 +1,48 @@
+/* GLOBAL */
+@import "~primeng/resources/primeng.min.css";
+@import "~primeng/resources/themes/omega/theme.css";
+
+ h1, h2, h3, h4 {
+    // font-family: 'Raleway', sans-serif;    
+ }
+
+ p, span, a {
+    font-family: 'Open Sans', sans-serif;    
+ }
+
+ .white {
+     color: white;
+ }
+ .center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+ }
+
+ /* BootSTrap */
+.btn-primary {
+    background-color: white;
+    border-color: white;
+    color: blue;
+}
+
+
+h1.popupHeading {
+    font-size: 1.2em;
+}
+
+.toggle-inputs {
+    .btn {
+        cursor: pointer;
+        border-color: rgb(116, 116, 116);
+        color:#65cf64;
+        font-weight: 600;
+    }
+    .btn.active {
+        border-color:  #65cf64;
+        background: #65cf64;
+        color: #FFF;
+    }
+}
+

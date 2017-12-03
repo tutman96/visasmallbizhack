@@ -71,12 +71,31 @@ export class GmapsService {
     })
   }
 
-  getTopPlaces(num: number = 3): { total: number, places: Array<Place>, averageRating: number } {
+  getTopPlaces(num: number = 3): { total: number, places: Array<Place>, averageRating: any } {
     if (this.placesInfo == null) throw new Error("placesInfo is null. call loadPlaces");
+    const avg = this.placesInfo.reduce((total, place) => place.rating != null ? total + place.rating : total, 0) / this.placesInfo.length
     return {
       total: this.placesInfo.length,
       places: this.placesInfo.slice(0, num),
-      averageRating: this.placesInfo.reduce((total, place) => place.rating != null ? total + place.rating : total, 0) / this.placesInfo.length
+      averageRating: this.roundTo(avg, 2)
     }
+  }
+
+  roundTo(n, digits) {
+    let negative = false;
+    if (digits === undefined) {
+      digits = 0;
+    }
+    if (n < 0) {
+      negative = true;
+      n = n * -1;
+    }
+    const multiplicator = Math.pow(10, digits);
+    n = parseFloat((n * multiplicator).toFixed(11));
+    n = (Math.round(n) / multiplicator).toFixed(2);
+    if (negative) {
+      n = (n * -1).toFixed(2);
+    }
+    return n;
   }
 }

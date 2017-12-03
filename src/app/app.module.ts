@@ -18,6 +18,7 @@ import { ApiService } from './services/api.service';
 // Modules
 import { SharedModule } from 'primeng/primeng';
 import { DropdownModule, ChartModule, InputSwitchModule } from 'primeng/primeng';
+import { TofixedPipe } from './pipes/tofixed.pipe';
 
 
 
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
     CommandCenterComponent,
     PageNotFoundComponent,
     MapApiComponent,
-    NewMapComponent
+    NewMapComponent,
+    TofixedPipe
   ],
   imports: [
     SharedModule,

@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GmapsService, Place } from '../services/gmaps.service';
+import { ApiService } from '../services/api.service';
 declare const google: any;
 @Component({
   selector: 'app-map-api',
   templateUrl: './map-api.component.html',
-  styleUrls: ['./map-api.component.css']
+  styleUrls: ['./map-api.component.scss']
 })
 export class MapApiComponent implements OnInit {
   @ViewChild('map') mapel: ElementRef;
@@ -14,10 +15,17 @@ export class MapApiComponent implements OnInit {
   map: any;
   heatmap: any;
   openInfoWindow: any;
-
+  visaData: any = null;
+  salesYoY: boolean = true;
+  transYoY: boolean = true;
+  chartData: any;
+  chartOptions: any;
+  averageRating: any = 10;
+  test: any = 'test';
   constructor(
     private mapApi: GmapsService,
     private route: ActivatedRoute,
+    private apiService: ApiService,
     private fb: FormBuilder,
   ) {
     this.searchForm = this.fb.group({
@@ -25,7 +33,7 @@ export class MapApiComponent implements OnInit {
       zip: ['', Validators.required],
       radius: ['']
     });
-   }
+  }
 
   ngOnInit() {
     this.map = new google.maps.Map(document.getElementById('googleMap'), {
@@ -33,7 +41,7 @@ export class MapApiComponent implements OnInit {
       scaleControl: false,
       mapTypeControl: false,
       streetViewControl: false,
-      fullscreenControl: false,      
+      fullscreenControl: false,
       styles: [
         // {
         //   featureType: 'poi.business',
@@ -126,6 +134,7 @@ export class MapApiComponent implements OnInit {
     });
     this.mapApi.setMap(this.map);
     this.getData();
+    this.getVisaData();
   }
 
   getData = () => {
@@ -134,10 +143,11 @@ export class MapApiComponent implements OnInit {
       this.map.fitBounds(zipGeometry.bounds);
 
       this.mapApi.loadPlaces('chinese').subscribe((places) => {
+        this.getPlaceData();
         this.setMarkers(places);
         this.heatMap(places);
-      })
-    })
+      });
+    });
   }
 
   setMarkers = (results: Place[]) => {
@@ -196,6 +206,52 @@ export class MapApiComponent implements OnInit {
   toggleHeat = () => {
     this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
   }
+
+  getVisaData = () => {
+    this.apiService.getMeasurement('30307').subscribe((response) => {
+      this.visaData = response;
+      this.prepPieChart(this.visaData.spendOutsideGeography);
+    });
+  }
+
+  toggleSales = (value: boolean) => {
+    this.salesYoY = value;
+  }
+
+  toggleTrans = (value: boolean) => {
+    this.transYoY = value;
+  }
+
+  getPlaceData = () => {
+    this.test = this.mapApi.getTopPlaces(4);
+  }
+
+  prepPieChart = (outpercent: number) => {
+    const inpercent = 100 - outpercent;
+    this.chartData = {
+      labels: ['Out', 'In'],
+      datasets: [
+        {
+          data: [outpercent, inpercent],
+          backgroundColor: [
+            '#192161',
+            '#65cf64'
+          ]
+        }]
+    };
+
+
+    this.chartOptions = {
+      legend: {
+        position: 'bottom',
+        labels: {
+          boxWidth: 10
+        }
+      }
+    };
+  }
+
+
 }
 
 

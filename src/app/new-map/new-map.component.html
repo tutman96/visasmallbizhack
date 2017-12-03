@@ -18,34 +18,29 @@
   <div class="container">
     <div class="row">
       <div class="col-sm">
-        <div class="card-temp">
+        <div class="map-ouput">
           <h3>Sales Growth</h3>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary">Over Year</button>
-            <button type="button" class="btn btn-secondary">Over Month</button>
+            <button type="button" class="btn btn-secondary" [class.active]="salesYoY" (click)="toggleSales(true)">Over Year</button>
+            <button type="button" class="btn btn-secondary" [class.active]="!salesYoY" (click)="toggleSales(false)">Over Month</button>
           </div>
           <div class="amount-output">
-              <span>{{visaData.salesVolumeGrowthMoM}}</span> %
-              <span>{{visaData.salesVolumeGrowthYoY}}</span>%
+              <span *ngIf="!salesYoY">{{visaData.salesVolumeGrowthMoM}}</span>
+              <span *ngIf="salesYoY">{{visaData.salesVolumeGrowthYoY}}</span>%
           </div>
         </div>
       </div>
       <div class="col-sm">
-          <div class="card-temp">
+          <div class="map-ouput">
               <h3>Sales Transactions Growth</h3>
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary">Over Year</button>
-                <button type="button" class="btn btn-secondary">Over Month</button>
+                  <button type="button" class="btn btn-secondary" [class.active]="transYoY" (click)="toggleTrans(true)">Over Year</button>
+                  <button type="button" class="btn btn-secondary" [class.active]="!transYoY" (click)="toggleTrans(false)">Over Month</button>
               </div>
               <div class="amount-output">
-                  <span>{{visaData.salesTranCntGrowthMoM}}</span> %
-                  <span>{{visaData.salesTranCntGrowthYoY}}</span>%
+                  <span *ngIf="!transYoY">{{visaData.salesTranCntGrowthMoM}}</span>
+                  <span *ngIf="transYoY">{{visaData.salesTranCntGrowthYoY}}</span>%
               </div>
-              <!-- <ul>
-               
-                <li>Percent of Sales From Outside Area: {{visaData.spendOutsideGeography}}</li>
-                <li>Average Transactions Per Min: {{visaData.avgTransactionFrequencey}}</li>
-              </ul> -->
             </div>
       </div>
       <div class="col-sm">
