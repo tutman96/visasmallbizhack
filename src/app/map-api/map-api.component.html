@@ -1,85 +1,85 @@
 <div class="dash-wrap" [class.dash-active]="showDash">
-    <nav class="navbar navbar-dark map-nav">
-        <a class="navbar-brand" href="/">
-            <img src="/assets/map.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span class="brand-text">Scout V1</span>
-        </a>
-        <form class="form-inline" [formGroup]="searchForm" novalidate (ngSubmit)="submitSearch()">
-            <div class="input-group mb-2 mb-sm-0">
-                <input type="text" class="form-control" formControlName="business" placeholder="Business Type">
+  <nav class="navbar navbar-dark map-nav">
+    <a class="navbar-brand" href="/">
+      <img src="/assets/map.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      <span class="brand-text">Scout V1</span>
+    </a>
+    <form class="form-inline" [formGroup]="searchForm" novalidate (ngSubmit)="submitSearch()">
+      <div class="input-group mb-2 mb-sm-0">
+        <input type="text" class="form-control" formControlName="business" placeholder="Business Type">
+      </div>
+      <div class="input-group mb-2 mb-sm-0">
+        <input type="text" class="form-control" formControlName="zip" placeholder="Zip Code">
+      </div>
+      <button class="btn btn-gold my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </nav>
+  <div #map id="googleMap"></div>
+  <div class="dash-panel">
+    <div class="map-metrics">
+      <div class="dash-tab" (click)="toggleDash()">
+        <span class="top">
+          <i class="fa fa-angle-up" aria-hidden="true" *ngIf="!showDash"></i>
+          <i class="fa fa-angle-down" aria-hidden="true" *ngIf="showDash"></i>
+        </span>
+        <span class="bottom" *ngIf="!showDash">View More</span>
+        <span class="bottom" *ngIf="showDash">View Less</span>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm">
+            <div class="map-output-tile">
+              <h3>Transactions Growth</h3>
+              <div class="amount-output" *ngIf="visaData">
+                <span *ngIf="!transYoY" [class.postive]="visaData.salesTranCntGrowthMoM > 0">{{visaData.salesTranCntGrowthMoM | tofixed}}</span>
+                <span *ngIf="transYoY" [class.postive]="visaData.salesTranCntGrowthYoY > 0">{{visaData.salesTranCntGrowthYoY | tofixed}}</span>%
+              </div>
+              <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
+                <button type="button" class="btn" [class.active]="transYoY" (click)="toggleTrans(true)">Over Year</button>
+                <button type="button" class="btn" [class.active]="!transYoY" (click)="toggleTrans(false)">Over Month</button>
+              </div>
             </div>
-            <div class="input-group mb-2 mb-sm-0">
-                <input type="text" class="form-control" formControlName="zip" placeholder="Zip Code">
+          </div>
+          <div class="col-sm">
+            <div class="map-output-tile">
+              <h3>Volume Growth</h3>
+              <div class="amount-output" *ngIf="visaData">
+                <span *ngIf="!salesYoY" [class.postive]="visaData.salesVolumeGrowthMoM > 0">{{visaData.salesVolumeGrowthMoM | tofixed}}</span>
+                <span *ngIf="salesYoY" [class.postive]="visaData.salesVolumeGrowthYoY > 0">{{visaData.salesVolumeGrowthYoY | tofixed}}</span>%
+              </div>
+              <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
+                <button type="button" class="btn" [class.active]="salesYoY" (click)="toggleSales(true)">Over Year</button>
+                <button type="button" class="btn" [class.active]="!salesYoY" (click)="toggleSales(false)">Over Month</button>
+              </div>
             </div>
-            <button class="btn btn-gold my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </nav>
-    <div #map id="googleMap"></div>
-    <div class="dash-panel">
-        <div class="map-metrics">
-            <div class="dash-tab" (click)="toggleDash()">
-                <span class="top">
-                    <i class="fa fa-angle-up" aria-hidden="true" *ngIf="!showDash"></i>
-                    <i class="fa fa-angle-down" aria-hidden="true" *ngIf="showDash"></i>
-                </span>
-                <span class="bottom" *ngIf="!showDash">View More</span>
-                <span class="bottom" *ngIf="showDash">View Less</span>
+          </div>
+          <div class="col-sm">
+            <div class="map-output-tile">
+              <h3>Out Of Town Sales %</h3>
+              <p-chart *ngIf="chartData" type="pie" [data]="chartData" [options]="chartOptions"></p-chart>
             </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="map-output-tile">
-                            <h3>Transactions Growth</h3>
-                            <div class="amount-output" *ngIf="visaData">
-                                <span *ngIf="!transYoY" [class.postive]="visaData.salesTranCntGrowthMoM > 0">{{visaData.salesTranCntGrowthMoM | tofixed}}</span>
-                                <span *ngIf="transYoY" [class.postive]="visaData.salesTranCntGrowthYoY > 0">{{visaData.salesTranCntGrowthYoY | tofixed}}</span>%
-                            </div>
-                            <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
-                                <button type="button" class="btn" [class.active]="transYoY" (click)="toggleTrans(true)">Over Year</button>
-                                <button type="button" class="btn" [class.active]="!transYoY" (click)="toggleTrans(false)">Over Month</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="map-output-tile">
-                            <h3>Volume Growth</h3>
-                            <div class="amount-output" *ngIf="visaData">
-                                <span *ngIf="!salesYoY" [class.postive]="visaData.salesVolumeGrowthMoM > 0">{{visaData.salesVolumeGrowthMoM | tofixed}}</span>
-                                <span *ngIf="salesYoY" [class.postive]="visaData.salesVolumeGrowthYoY > 0">{{visaData.salesVolumeGrowthYoY | tofixed}}</span>%
-                            </div>
-                            <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
-                                <button type="button" class="btn" [class.active]="salesYoY" (click)="toggleSales(true)">Over Year</button>
-                                <button type="button" class="btn" [class.active]="!salesYoY" (click)="toggleSales(false)">Over Month</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="map-output-tile">
-                            <h3>Out Of Town Sales %</h3>
-                            <p-chart *ngIf="chartData" type="pie" [data]="chartData" [options]="chartOptions"></p-chart>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="map-output-tile">
-                            <h3>Est Competitor Count</h3>
-                            <div class="amount-output">
-                                {{test.total}}
-                                <span *ngIf="test.total === 40">+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="map-output-tile">
-                            <h3>Avg Competition Rating</h3>
-                            <div class="amount-output">
-                                {{ test.averageRating }}
-                                <span class="fa fa-star"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="col-sm">
+            <div class="map-output-tile">
+              <h3>Est Competitor Count</h3>
+              <div class="amount-output">
+                {{test.total}}
+                <span *ngIf="test.total === 40">+</span>
+              </div>
             </div>
+          </div>
+          <div class="col-sm">
+            <div class="map-output-tile">
+              <h3>Avg Competition Rating</h3>
+              <div class="amount-output">
+                {{ test.averageRating }}
+                <span class="fa fa-star"></span>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
         <div class="dash-content">
             <div class="container pt-5">
                 <h5>Dashboard</h5>
@@ -94,69 +94,70 @@
                                     <p>Merchant Measurement</p>
                                 </div>
                                 <div class="btn-group toggledashbtn" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn" [class.active]="toggleBarYoM" (click)="toggleBarYoM(true)">Year</button>
-                                    <button type="button" class="btn" [class.active]="!toggleBarYoM" (click)="toggleBarMoM(false)">Month</button>
+                                    <button type="button" class="btn" [class.active]="toggleBarY" (click)="toggleBar(true)">Year</button>
+                                    <button type="button" class="btn" [class.active]="!toggleBarY" (click)="toggleBar(false)">Month</button>
                                 </div>
                             </div>
-                            <p-chart *ngIf="finished" type="horizontalBar" [options]="options" [data]="data" [width]="100" [height]="50"></p-chart>
+                            <p-chart *ngIf="finished && toggleBarY" type="horizontalBar" [options]="options" [data]="yData" [width]="100" [height]="50"></p-chart>
+                            <p-chart *ngIf="finished && !toggleBarY" type="horizontalBar" [options]="options" [data]="mData" [width]="100" [height]="50"></p-chart>
                         </div>
-                        <div class="card mt-4">
-                            <div class="card-title">
-                                <div style="display: flex;">
+                        <div *ngIf="test" class="card mt-4">
+                                <div class="card-title">
+                                  <div style="display: flex;">
                                     <span class="logo-title">
-                                        <img src="../../assets/trophy.svg" height="20" width="40">
+                                      <img src="../../assets/trophy.svg" height="20" width="40">
                                     </span>
                                     <p>Competition</p>
+                                  </div>
                                 </div>
-                            </div>
-                            <div class="card-title">
-                                <div>
-                                    <h1>38</h1>
+                                <div class="card-title">
+                                  <div>
+                                    <h1>{{test.total}}</h1>
                                     <p>Total Competitors</p>
-                                </div>
-                                <div>
-                                    <h1>4.5
-                                        <span class="fa fa-star"></span>
+                                  </div>
+                                  <div>
+                                    <h1>{{test.averageRating}}
+                                      <span class="fa fa-star"></span>
                                     </h1>
                                     <p>Avg. Competitor Rating</p>
+                                  </div>
                                 </div>
-                            </div>
-                            <p>TOP 3 COMPETITORS</p>
-                            <div>
-                                <table class="table table-striped">
+                                <p>TOP 4 COMPETITORS</p>
+                                <div>
+                                  <table class="table">
                                     <thead>
-                                        <tr>
-                                            <th scope="col">NAME</th>
-                                            <th scope="col">RATING</th>
-                                            <th scope="col">PRICE POINT</th>
-                                        </tr>
+                                      <tr>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">RATING</th>
+                                        <th scope="col">PRICE POINT</th>
+                                      </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>China Star</td>
-                                            <td>2.5
-                                                <span style="font-size: 20px;" class="fa fa-star"></span>
-                                            </td>
-                                            <td>$$$</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Thai Kitchen</td>
-                                            <td>2.5
-                                                <span style="font-size: 20px;" class="fa fa-star"></span>
-                                            </td>
-                                            <td>$$</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ru Sans Sushi</td>
-                                            <td>2.5
-                                                <span style="font-size: 20px;" class="fa fa-star"></span>
-                                            </td>
-                                            <td>$$$$</td>
-                                        </tr>
+                                    <tbody *ngFor="let joint of test.places">
+                                      <tr>
+                                        <td>{{joint.name}}</td>
+                                        <td>{{joint.rating}}
+                                          <span style="font-size: 20px;" class="fa fa-star"></span>
+                                        </td>
+                                        <td>$$$</td>
+                                      </tr>
+                                      <!-- <tr>
+                                        <td>Thai Kitchen</td>
+                                        <td>2.5
+                                          <span style="font-size: 20px;" class="fa fa-star"></span>
+                                        </td>
+                                        <td>$$</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Ru Sans Sushi</td>
+                                        <td>2.5
+                                          <span style="font-size: 20px;" class="fa fa-star"></span>
+                                        </td>
+                                        <td>$$$$</td>
+                                      </tr> -->
                                     </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                  </table>
+                                </div>
+                              </div>
                     </div>
 
                     <div class="col-md-6">
@@ -231,3 +232,4 @@
             </div>
         </div>
     </div>
+</div>

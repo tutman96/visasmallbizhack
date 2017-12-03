@@ -20,6 +20,7 @@ export class MapApiComponent implements OnInit {
   salesYoY: boolean = true;
   transYoY: boolean = true;
   showDash: boolean = false;
+  toggleBarY: boolean = true;
   chartData: any;
   chartOptions: any;
   currentRate: any = null;
@@ -30,11 +31,11 @@ export class MapApiComponent implements OnInit {
   formData;
   allMMData = {};
   isYoy = true;
-  isMom = false;
+  isMom = true;
   finished = false;
   finishedWalk = false;
   walkGrade: string;
-  data = {
+  yData = {
     labels: [
       'Sales Volume Growth YoY',
       'Sales Transaction Count Growth YoY',
@@ -42,37 +43,55 @@ export class MapApiComponent implements OnInit {
       'Average Transaction Frequencey'
     ],
     datasets: [
-        {
-            label: '',
-            data: [],
-            fill: false,
-            borderColor: '#4bc0c0'
-        }
+      {
+        label: '',
+        data: [],
+        backgroundColor: '#192161',
+        borderColor: '#1E88E5',
+      }
+    ]
+  };
+  mData = {
+    labels: [
+      'Sales Volume Growth YoY',
+      'Sales Transaction Count Growth YoY',
+      'Spend Outside Geography',
+      'Average Transaction Frequencey'
+    ],
+    datasets: [
+      {
+        label: '',
+        data: [],
+        backgroundColor: '#192161',
+        borderColor: '#1E88E5'
+      }
     ]
   };
   options = {
     title: {
-        display: false,
-        text: 'My Title',
-        fontSize: 16
+      display: false,
+      text: 'My Title',
+      fontSize: 16
     },
     legend: {
-        display: false
+      display: false
     }
   };
   walk = {
     labels: [],
     datasets: [
-        {
-            data: [],
-            backgroundColor: [
-                "#70D56F"
-            ],
-            hoverBackgroundColor: [
-                "#70D56F"
-            ]
-        }]
+      {
+        data: [],
+        backgroundColor: [
+          "#70D56F"
+        ],
+        hoverBackgroundColor: [
+          "#70D56F"
+        ]
+      }]
   };
+  comData = false;
+  competitors: any;
 
   constructor(
     private changeRef: ChangeDetectorRef,
@@ -90,7 +109,7 @@ export class MapApiComponent implements OnInit {
 
     this.loanForm = this.fb.group({
       loanAmount: ['', Validators.required],
-      zip:['', Validators.required],
+      zip: ['', Validators.required],
       term: ['', Validators.required]
     });
 
@@ -216,9 +235,9 @@ export class MapApiComponent implements OnInit {
       ]
     });
     this.mapApi.setMap(this.map);
-    
+
     // Merchant Measurement Bar Graph
-    this.apiService.getMeasurement('30044').subscribe( result => {
+    this.apiService.getMeasurement('30044').subscribe(result => {
       this.allMMData = result;
       this.setBatGraph();
     });
@@ -231,13 +250,13 @@ export class MapApiComponent implements OnInit {
       this.walk.datasets[0].data.push(total);
       this.finishedWalk = true;
 
-      if ( rate <= 25 ) {
+      if (rate <= 25) {
         this.walkGrade = 'Bad :(';
-      }else if (rate >= 25 && rate <= 50) {
+      } else if (rate >= 25 && rate <= 50) {
         this.walkGrade = 'Poor';
-      }else if (rate >= 51 && rate <= 75) {
+      } else if (rate >= 51 && rate <= 75) {
         this.walkGrade = 'Good';
-      }else if(rate >= 75) {
+      } else if (rate >= 75) {
         this.walkGrade = 'Great!';
       }
     });
@@ -249,38 +268,41 @@ export class MapApiComponent implements OnInit {
         const yoy = _.endsWith(label, 'YoY');
         const other = _.endsWith(label, 'y');
         if (yoy || other) {
-          this.data.datasets[0].data.push(value);
+          this.yData.datasets[0].data.push(value);
         }
         this.finished = true;
       });
-    }else if (this.isMom) {
+    } else if (this.isMom) {
       _.forEach(this.allMMData, (value, label) => {
         const yoy = _.endsWith(label, 'MoM');
         const other = _.endsWith(label, 'y');
         if (yoy || other) {
-          this.data.datasets[0].data.push(value);
+          this.mData.datasets[0].data.push(value);
         }
         this.finished = true;
       });
     }
+    this.changeRef.detectChanges();
   }
 
-  toggleBar(type: string) {
-    if(type === 'yoy') {
+  toggleBar = (value: boolean) => {
+    this.toggleBarY = value;
+    if (this.toggleBarY) {
       this.isYoy = true;
       this.isMom = false;
       this.setBatGraph();
-    }else {
+    } else {
       this.isYoy = false;
       this.isMom = true;
       this.setBatGraph();
     }
   }
 
+
   onSubmitLoan() {
-    this.apiService.getDepositRates(10000 , this.loanForm.value.loanAmount, this.loanForm.value.term, this.loanForm.value.zip).subscribe(rate => {
-     this.currentRate = rate;
-     console.log(this.currentRate);
+    this.apiService.getDepositRates(10000, this.loanForm.value.loanAmount, this.loanForm.value.term, this.loanForm.value.zip).subscribe(rate => {
+      this.currentRate = rate;
+      console.log(this.currentRate);
     });
   }
 
@@ -304,6 +326,8 @@ export class MapApiComponent implements OnInit {
         this.getPlaceData();
         this.setMarkers(places);
         this.heatMap(places);
+        this.competitors = this.mapApi.getTopPlaces();
+        console.log(this.competitors);
       });
     });
   }
@@ -378,6 +402,14 @@ export class MapApiComponent implements OnInit {
 
   toggleTrans = (value: boolean) => {
     this.transYoY = value;
+  }
+
+  toggleBarYoY(value: boolean) {
+    this.isYoy = value;
+  }
+
+  toggleBarMoM(value: boolean) {
+    this.isMom = value;
   }
 
   getPlaceData = () => {
