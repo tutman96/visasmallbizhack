@@ -18,6 +18,5 @@
       </form>
 </div>
 
-<agm-map [latitude]="lat" [longitude]="lng">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-</agm-map>
+<p-chart type="line" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
+<p-chart type="doughnut" [data]="data"></p-chart>
