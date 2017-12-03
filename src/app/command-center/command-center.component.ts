@@ -40,9 +40,9 @@ export class CommandCenterComponent implements OnInit {
             label: '',
             data: [],
             fill: true,
-            backgroundColor: 'rgba(255,255,255,1)'
+            backgroundColor: '#ffffff',
         }
-    ]
+    ],
   };
 
   allMMData = {};
