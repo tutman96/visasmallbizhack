@@ -1,29 +1,24 @@
 <div class="background">
   <div class="bg">
-    <div class="text-center container-landing">
-      <h1 class="white">WELCOME TO SCOUT</h1>
-      <p class="white">A merchant comparison tool powered by Visa's Merchant Comparison API</p>
-      <div class="btn-top">
-        <button class="btn" *ngIf="!isForm" (click)="isForm = true;">GET STARTED</button>
-        <form [formGroup]="searchForm" novalidate *ngIf="isForm" (ngSubmit)="onSubmit(searchForm)">
-          <div class="form-group search-group">
-            <input class="form-control" formControlName="business" placeholder="Business Type" (keyup)="onKey(searchForm)">
-            <input class="form-control" formControlName="zip" placeholder="Zip">
-            <button class="btn btn-primary" type="submit" [routerLink]="['/crisis-center']">GO</button>
+    <div class="container-landing">
+      <div class="text-center">
+        <div class="logo">
+          <img src="../../assets/ScoutLogo.svg">
+        </div>
+        <div class="btn-top">
+          <div class="form-inline search-group" novalidate>
+            <div class="input-group mb-2 mb-sm-0">
+              <input type="text" class="form-control" [(ngModel)]="business" placeholder="Business Type">
+            </div>
+            <div class="input-group mb-2 mb-sm-0">
+              <input type="text" class="form-control" [(ngModel)]="zip" placeholder="Zip Code">
+            </div>
+            <button class="btn btn-gold my-2 my-sm-0" type="submit" [routerLink]="['/map-api']" [queryParams]="{zip: zip, business: business}">Search</button>
           </div>
-        </form>
+        </div>
       </div>
-
       <div class="bottom-content row">
-        <div class="col-sm not-middle-col">
-          Test content
-        </div>
-        <div class="col-sm">
-          Test content 2
-        </div>
-        <div class="col-sm not-middle-col">
-          Test content 3
-        </div>
+        <img src="../../assets/Bottom.svg">
       </div>
     </div>
   </div>
