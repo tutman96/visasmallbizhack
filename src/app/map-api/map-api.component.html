@@ -88,7 +88,9 @@
                             <div class="card">
                               <div class="card-title">
                                   <div class="logotitle">
-                                      <img src="../../assets/visa-logo.png" height="10" width="40">
+                                      <span class="logo-title">
+                                          <img src="../../assets/visa-logo.png" height="10" width="40">
+                                      </span>
                                       <p>Merchant Measurement</p>
                                   </div>
                                 <div class="btn-group toggledashbtn" role="group" aria-label="Basic example">
@@ -100,7 +102,12 @@
                             </div>
                             <div class="card mt-4">
                               <div class="card-title">
-                                <p>Competition</p>
+                                  <div style="display: flex;">
+                                        <span class="logo-title">
+                                            <img src="../../assets/trophy.svg" height="30" width="40">
+                                        </span>
+                                        <p>Competition</p>
+                                  </div>
                               </div>
                               <div class="card-title">
                                 <div>
@@ -108,7 +115,7 @@
                                   <p>Total Competitors</p>
                                 </div>
                                 <div>
-                                  <h1>4.5</h1>
+                                  <h1>4.5 <span class="fa fa-star"></span></h1>
                                   <p>Avg. Competitor Rating</p>
                                 </div>
                               </div>
@@ -125,17 +132,17 @@
                                       <tbody>
                                         <tr>
                                           <td>China Star</td>
-                                          <td>2.5</td>
+                                          <td>2.5 <span style="font-size: 20px;" class="fa fa-star"></span></td>
                                           <td>$$$</td>
                                         </tr>
                                         <tr>
                                           <td>Thai Kitchen</td>
-                                          <td>2.5</td>
+                                          <td>2.5 <span style="font-size: 20px;" class="fa fa-star"></span></td>
                                           <td>$$</td>
                                         </tr>
                                         <tr>
                                           <td>Ru Sans Sushi</td>
-                                          <td>2.5</td>
+                                          <td>2.5 <span style="font-size: 20px;" class="fa fa-star"></span></td>
                                           <td>$$$$</td>
                                         </tr>
                                       </tbody>
@@ -170,11 +177,18 @@
                             </div>
                             <div class="card mt-4">
                               <div class="card-title">
-                                <p>Walkability</p>
+                                    <div class="logotitle">
+                                    <span class="logo-title">
+                                        <img src="../../assets/wow.svg" height="30" width="40">
+                                    </span>
+                                    <p>Walkability</p>
+                                    </div>
                               </div>
-                              <h1>{{walk.datasets[0].data[0]}}%</h1>
-                              <p>{{walkGrade}}</p>
                               <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk"></p-chart>
+                              <div style="text-align:center;">
+                                    <h1>{{walk.datasets[0].data[0]}}%</h1>
+                                    <p>{{walkGrade}}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
