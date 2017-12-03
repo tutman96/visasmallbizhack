@@ -151,13 +151,13 @@
                               </div>
                               <div class="row">
                                 <div class="loanForm col-md-6">
-                                  <form [formGroup]="loanForm" novalidate (ngSubmit)="onSubmitLoan(loanForm.controls)">
+                                  <form [formGroup]="loanForm" novalidate (ngSubmit)="onSubmitLoan()">
                                     <div class="form-group">
                                       <input class="form-control" type="number" formControlName="balance" placeholder="Balance">
                                       <input class="form-control mt-2" type="number" formControlName="loanAmount" placeholder="Loan Amount">
                                       <input class="form-control mt-2" type="text" formControlName="term" placeholder="Term">
-                                      <input class="form-control mt-2" type="text" formControlName="zipcode" placeholder="Zip Code">
-                                      <button class="btn btn-green mt-2" type="submit" [routerLink]="['/crisis-center']">SUBMIT</button>
+                                      <input class="form-control mt-2" type="text" formControlName="zip" placeholder="Zipcode">
+                                      <button class="btn btn-gold my-2 my-sm-0" type="submit">Submit</button>
                                     </div>
                                   </form>
                                 </div>
