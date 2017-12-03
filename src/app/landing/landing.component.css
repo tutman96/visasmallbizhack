@@ -1,7 +1,7 @@
 .background {
-    background-color: #1D1F36;
+    background-color: #111741;
     /* background-image:linear-gradient(#2B2E47, #0E0E24); */
-    background-image: radial-gradient(at top, #2B2E47, #0E0E24);
+    background-image: radial-gradient(at top, #192261, #0b102c);
     min-height: 100vh;
 }
 
@@ -42,8 +42,9 @@
 }
 
 .container-landing {
-    padding-top: 125px;
+    padding-top: 150px;
     background: url('../../assets/landing-map2.svg') no-repeat center center;
+    /* background-size: cover; */
     /* min-height: 100vh; */
 }
 
@@ -56,26 +57,37 @@
 }
 
 .btn-top {
-    padding-top: 50px;
+    max-width: 500px;
+    position: relative;
+    margin: 150px auto;
 }
-.search-group{
-    display: flex;
+.search-group {
+    margin: 0 auto;
 }
 .form-control {
     margin: 5px
 }
 
-.container-landing .btn {
+/* .container-landing .btn {
     text-transform: uppercase;
     padding: 1em 3em;
     font-weight: 700;
     color: #143D6E;
+} */
+
+.btn-gold {
+    background-color: #FBD110;
+    color: #192161;
 }
 
 .bottom-content {
     color: #DFDFDF;
-    margin: 300px 0 0;
+    margin: 150px 0 0;
     width: 100%;
+}
+
+.bottom-content img {
+    margin: 0 auto;
 }
 
 .bottom-content .not-middle-col {

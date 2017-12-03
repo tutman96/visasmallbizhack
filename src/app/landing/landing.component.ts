@@ -8,29 +8,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-
-  isForm = false;
-  searchForm: FormGroup;
+  
+  business: string;
+  zip: string;
 
   constructor(
-      private fb: FormBuilder,
-      private route: ActivatedRoute
     ) {
-    this.searchForm = this.fb.group({
-      business: ['', Validators.required],
-      zip: ['', Validators.required]
-    });
+    
   }
 
   ngOnInit() {
   }
-
-  onSubmit(value) {
-    console.log(value);
-  }
-
-  onKey(event: any) { // without type info
-    console.log(event);
-  }
-
 }

@@ -39,8 +39,8 @@ export class CommandCenterComponent implements OnInit {
         {
             label: '',
             data: [],
-            fill: false,
-            borderColor: '#192161'
+            fill: true,
+            backgroundColor: 'rgba(255,255,255,1)'
         }
     ]
   };
@@ -60,12 +60,11 @@ export class CommandCenterComponent implements OnInit {
     },
     legend: {
         display: false
-    },
-    backgroundColor: '#192161'
+    }
   };
 
   walk = {
-    labels: [],
+    labels: ['Walkability'],
     datasets: [
         {
             data: [],

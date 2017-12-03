@@ -27,7 +27,7 @@
 
 #googleMap {
     width:100vw;
-    height: 100vh;
+    height: calc(100vh - 270px);
     position: relative;
     z-index: 1;
 }
@@ -180,5 +180,5 @@
     display: flex;
 }
 .logo-title{
-    padding-top: 5px;
+    padding-right: 10px;
 }
