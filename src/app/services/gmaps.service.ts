@@ -39,7 +39,6 @@ export class GmapsService {
     const geocoder = new google.maps.Geocoder();
     return Observable.create((observer) => {
       geocoder.geocode({ address: zip }, (geocoderResult, status) => {
-        console.log("geocoderResult[0]:", geocoderResult[0]);
         this.zipcodeGeometry = geocoderResult[0].geometry;
         this.zipcodeName = geocoderResult[0].formatted_address;
         observer.next(this.zipcodeGeometry);
@@ -51,15 +50,23 @@ export class GmapsService {
     return Observable.create((observer) => {
       if (this.zipcodeGeometry == null) throw new Error("zipcodeGeometry is null. call loadZipcodeGeometry");
       if (this.map == null) throw new Error("map is null. call setMap");
-
+      this.placesInfo = [];
+      console.log("searchTerm", searchTerm);
       this.service.nearbySearch({
         location: this.zipcodeGeometry.location,
         radius: 2500,
         keyword: searchTerm,
         type: ['restaurant']
-      }, (placesResult) => {
-        this.placesInfo = placesResult
-        observer.next(this.placesInfo);
+      }, (results, status, pagination) => {
+        this.placesInfo = this.placesInfo.concat(results)
+        if (pagination.hasNextPage && this.placesInfo.length < 40) {
+          console.log("new page", this.placesInfo);
+          pagination.nextPage();
+        }
+        else {
+          console.log("done", this.placesInfo);
+          observer.next(this.placesInfo);
+        }
       });
     })
   }
