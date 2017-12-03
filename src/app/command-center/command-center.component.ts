@@ -12,10 +12,6 @@ export class CommandCenterComponent implements OnInit {
 
   searchForm: FormGroup;
 
-  title = 'My first AGM project';
-  lat = 51.678418;
-  lng = 7.809007;
-
   formData;
   selectedRadius = '10 mile radius';
 

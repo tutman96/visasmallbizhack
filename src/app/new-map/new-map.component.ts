@@ -2,20 +2,22 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GmapsService } from '../services/gmaps.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
+import { ApiService } from '../services/api.service';
 declare const google: any;
 @Component({
   selector: 'app-map-api',
-  templateUrl: './map-api.component.html',
-  styleUrls: ['./map-api.component.css']
+  templateUrl: './new-map.component.html',
+  styleUrls: ['./new-map.component.css']
 })
-export class MapApiComponent implements OnInit {
+export class NewMapComponent implements OnInit {
   @ViewChild('map') mapel: ElementRef;
   searchForm: FormGroup;
   map: any;
   heatmap: any;
+  visaData: any = null;
   constructor(
     private mapApi: GmapsService,
+    private apiService: ApiService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
   ) {
@@ -29,6 +31,7 @@ export class MapApiComponent implements OnInit {
   ngOnInit() {
     this.map = new google.maps.Map(document.getElementById('googleMap'), {mapTypeId: google.maps.MapTypeId.ROADMAP });
     this.getData();
+    this.getVisaData();
   }
 
   getData = () => {
@@ -65,7 +68,6 @@ export class MapApiComponent implements OnInit {
 
   setMarkers = (results: any[]) => {
     for (let i = 0; i < results.length; i++) {
-      console.log(results[i]);
       this.createMarkers(results[i]);
     }
   }
@@ -93,8 +95,10 @@ export class MapApiComponent implements OnInit {
     });
   }
 
-  toggleHeat = () => {
-    this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
+  getVisaData = () => {
+    this.apiService.getMeasurement('30307').subscribe((response) => {
+      this.visaData = response;
+    });
   }
 }
 

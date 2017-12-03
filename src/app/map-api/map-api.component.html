@@ -1,7 +1,19 @@
 <nav class="navbar navbar-dark map-nav">
     <a class="navbar-brand" href="/">
-        <img src="/assets/map.svg" width="30" height="30" class="d-inline-block align-top" alt=""> 
-        <span class="brand-text">Scout</span>
+        <img src="/assets/map.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span class="brand-text">Scout V1</span>
     </a>
+    <form class="form-inline" [formGroup]="searchForm" novalidate (ngSubmit)="submitSearch()">
+        <div class="input-group mb-2 mb-sm-0">
+            <input type="text" class="form-control" formControlName="business" placeholder="Business Type">
+        </div>
+        <div class="input-group mb-2 mb-sm-0">
+            <input type="text" class="form-control" formControlName="zip" placeholder="Zip Code">
+        </div>
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
 </nav>
-<div #map id="googleMap" style="width:100vw;height:100vh"></div>
+<div #map id="googleMap"></div>
+<div class="map-metrics">
+
+</div>

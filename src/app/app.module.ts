@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { MapApiComponent } from './map-api/map-api.component';
 import { GmapsService } from './services/gmaps.service';
 import { HttpClient } from '@angular/common/http';
+import { NewMapComponent } from './new-map/new-map.component';
 
 import { ApiService } from './services/api.service';
 
@@ -35,6 +36,10 @@ const appRoutes: Routes = [
     path: 'map-api',
     component: MapApiComponent
   },
+  {
+    path: 'new-map',
+    component: NewMapComponent
+  },
   { path: '',
     redirectTo: '/welcome',
     pathMatch: 'full'
@@ -48,7 +53,8 @@ const appRoutes: Routes = [
     LandingComponent,
     CommandCenterComponent,
     PageNotFoundComponent,
-    MapApiComponent
+    MapApiComponent,
+    NewMapComponent
   ],
   imports: [
     SharedModule,
