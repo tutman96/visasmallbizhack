@@ -18,6 +18,8 @@ export class MapApiComponent implements OnInit {
   visaData: any = null;
   salesYoY: boolean = true;
   transYoY: boolean = true;
+  chartData: any;
+  chartOptions: any;
   averageRating: any = 10;
   test: any = 'test';
   constructor(
@@ -208,6 +210,7 @@ export class MapApiComponent implements OnInit {
   getVisaData = () => {
     this.apiService.getMeasurement('30307').subscribe((response) => {
       this.visaData = response;
+      this.prepPieChart(this.visaData.spendOutsideGeography);
     });
   }
 
@@ -221,6 +224,31 @@ export class MapApiComponent implements OnInit {
 
   getPlaceData = () => {
     this.test = this.mapApi.getTopPlaces(4);
+  }
+
+  prepPieChart = (outpercent: number) => {
+    const inpercent = 100 - outpercent;
+    this.chartData = {
+      labels: ['Out', 'In'],
+      datasets: [
+        {
+          data: [outpercent, inpercent],
+          backgroundColor: [
+            '#192161',
+            '#65cf64'
+          ]
+        }]
+    };
+
+
+    this.chartOptions = {
+      legend: {
+        position: 'bottom',
+        labels: {
+          boxWidth: 10
+        }
+      }
+    };
   }
 
 

@@ -16,7 +16,9 @@
 <div #map id="googleMap"></div>
 <div class="map-metrics">
     <div class="dash-tab">
-        <span class="top"><i class="fa fa-angle-up" aria-hidden="true"></i></span>
+        <span class="top">
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+        </span>
         <span class="bottom">View More</span>
     </div>
     <div class="container-fluid">
@@ -48,7 +50,10 @@
                 </div>
             </div>
             <div class="col-sm">
-                Graph
+                <div class="map-output-tile">
+                    <h3>Out Of Town Sales %</h3>
+                    <p-chart *ngIf="chartData" type="pie" [data]="chartData" [options]="chartOptions"></p-chart>
+                </div>
             </div>
             <div class="col-sm">
                 <div class="map-output-tile">
@@ -66,7 +71,7 @@
                         {{ test.averageRating }}
                         <span class="fa fa-star"></span>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
