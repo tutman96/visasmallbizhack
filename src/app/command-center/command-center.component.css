@@ -11,6 +11,14 @@
 .form-controls, .dropdown { 
     margin-right: 26px; 
 }
-agm-map {
-    height: 500px;
+
+.card {
+    border: 2px solid #EEEEEE;
+    padding: 20px;
+}
+.card-title {
+    display: flex;
+    justify-content: space-between;
+}
+.loanInfo {
 }
