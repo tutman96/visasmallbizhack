@@ -209,7 +209,71 @@ export class MapApiComponent implements OnInit {
       ]
     });
     this.mapApi.setMap(this.map);
+    
+    // Merchant Measurement Bar Graph
+    this.apiService.getMeasurement('30044').subscribe( result => {
+      this.allMMData = result;
+      this.setBatGraph();
+    });
 
+    // Walkability Pie
+    this.apiService.getWalkability(33.749249, -84.387314).subscribe(data => {
+      const rate = data.score;
+      this.walk.datasets[0].data.push(rate);
+      const total = 100 - rate;
+      this.walk.datasets[0].data.push(total);
+      this.finishedWalk = true;
+
+      if ( rate <= 25 ) {
+        this.walkGrade = 'Bad :(';
+      }else if (rate >= 25 && rate <= 50) {
+        this.walkGrade = 'Poor';
+      }else if (rate >= 51 && rate <= 75) {
+        this.walkGrade = 'Good';
+      }else if(rate >= 75) {
+        this.walkGrade = 'Great!';
+      }
+    });
+  }
+
+  setBatGraph() {
+    if (this.isYoy) {
+      _.forEach(this.allMMData, (value, label) => {
+        const yoy = _.endsWith(label, 'YoY');
+        const other = _.endsWith(label, 'y');
+        if (yoy || other) {
+          this.data.datasets[0].data.push(value);
+        }
+        this.finished = true;
+      });
+    }else if (this.isMom) {
+      _.forEach(this.allMMData, (value, label) => {
+        const yoy = _.endsWith(label, 'MoM');
+        const other = _.endsWith(label, 'y');
+        if (yoy || other) {
+          this.data.datasets[0].data.push(value);
+        }
+        this.finished = true;
+      });
+    }
+  }
+
+  toggleBar(type: string) {
+    if(type === 'yoy') {
+      this.isYoy = true;
+      this.isMom = false;
+      this.setBatGraph();
+    }else {
+      this.isYoy = false;
+      this.isMom = true;
+      this.setBatGraph();
+    }
+  }
+
+  onSubmitLoan(controls) {
+    this.apiService.getDepositRates(controls.balance, controls.loanAmount, controls.term, controls.zipcode).subscribe(rate => {
+      console.log(rate);
+    });
   }
 
   submitSearch = () => {
@@ -332,7 +396,6 @@ export class MapApiComponent implements OnInit {
       }
     };
   }
-
 
   toggleDash = () => {
     this.showDash = !this.showDash;
