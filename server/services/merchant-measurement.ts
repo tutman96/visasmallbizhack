@@ -101,12 +101,12 @@ export async function getMeasurementByZipcode(zipCode: string) {
 		// throw new Error("Visa API Exception: " + response.responseStatus.statusDescription);
 		
 		return {
-			salesVolumeGrowthMoM: (Math.random() * 100 - 50).toFixed(4),
-			salesTranCntGrowthMoM: (Math.random() * 100 - 50).toFixed(4),
-			salesVolumeGrowthYoY: (Math.random() * 100 - 50).toFixed(4),
-			salesTranCntGrowthYoY: (Math.random() * 100 - 50).toFixed(4),
-			spendOutsideGeography: (Math.random() * 30).toFixed(2),
-			avgTransactionFrequencey: (Math.random() * 10).toFixed(2)
+			salesVolumeGrowthMoM: +(Math.random() * 100 - 50).toFixed(4),
+			salesTranCntGrowthMoM: +(Math.random() * 100 - 50).toFixed(4),
+			salesVolumeGrowthYoY: +(Math.random() * 100 - 50).toFixed(4),
+			salesTranCntGrowthYoY: +(Math.random() * 100 - 50).toFixed(4),
+			spendOutsideGeography: +(Math.random() * 30).toFixed(2),
+			avgTransactionFrequencey: +(Math.random() * 10).toFixed(2)
 		}
 	}
 	
@@ -117,11 +117,11 @@ export async function getMeasurementByZipcode(zipCode: string) {
 	})
 	
 	return {
-		salesVolumeGrowthMoM: standard.salesVolumeGrowthMoM,
-		salesTranCntGrowthMoM: standard.salesTranCntGrowthMoM,
-		salesVolumeGrowthYoY: standard.salesVolumeGrowthYoY,
-		salesTranCntGrowthYoY: standard.salesTranCntGrowthYoY,
-		spendOutsideGeography: cardHolder.outMSATotalSpendPct + cardHolder.outCountryTotalSpendPct,
-		avgTransactionFrequencey: cardHolder.avgCardTranFreq
+		salesVolumeGrowthMoM: +standard.salesVolumeGrowthMoM,
+		salesTranCntGrowthMoM: +standard.salesTranCntGrowthMoM,
+		salesVolumeGrowthYoY: +standard.salesVolumeGrowthYoY,
+		salesTranCntGrowthYoY: +standard.salesTranCntGrowthYoY,
+		spendOutsideGeography: +cardHolder.outMSATotalSpendPct + cardHolder.outCountryTotalSpendPct,
+		avgTransactionFrequencey: +cardHolder.avgCardTranFreq
 	}
 }
