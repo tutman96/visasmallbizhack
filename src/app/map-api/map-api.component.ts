@@ -30,7 +30,7 @@ export class MapApiComponent implements OnInit {
   formData;
   allMMData = {};
   isYoy = true;
-  isMom = false;
+  isMom = true;
   finished = false;
   finishedWalk = false;
   walkGrade: string;
@@ -73,6 +73,8 @@ export class MapApiComponent implements OnInit {
             ]
         }]
   };
+  comData = false;
+  competitors: any;
 
   constructor(
     private changeRef: ChangeDetectorRef,
@@ -91,7 +93,7 @@ export class MapApiComponent implements OnInit {
     this.loanForm = this.fb.group({
       balance: ['', Validators.required],
       loanAmount: ['', Validators.required],
-      zip:['', Validators.required],
+      zip: ['', Validators.required],
       term: ['']
     });
 
@@ -217,7 +219,7 @@ export class MapApiComponent implements OnInit {
       ]
     });
     this.mapApi.setMap(this.map);
-    
+
     // Merchant Measurement Bar Graph
     this.apiService.getMeasurement('30044').subscribe( result => {
       this.allMMData = result;
@@ -278,6 +280,7 @@ export class MapApiComponent implements OnInit {
     }
   }
 
+
   onSubmitLoan() {
     this.apiService.getDepositRates(this.loanForm.value.balance , this.loanForm.value.loanAmount, this.loanForm.value.term, this.loanForm.value.zipcode).subscribe(rate => {
       console.log(rate);
@@ -299,6 +302,8 @@ export class MapApiComponent implements OnInit {
         this.getPlaceData();
         this.setMarkers(places);
         this.heatMap(places);
+        this.competitors = this.mapApi.getTopPlaces();
+        console.log(this.competitors);
       });
     });
   }
@@ -373,6 +378,14 @@ export class MapApiComponent implements OnInit {
 
   toggleTrans = (value: boolean) => {
     this.transYoY = value;
+  }
+
+  toggleBarYoY(value: boolean) {
+    this.isYoy = value;
+  }
+
+  toggleBarMoM(value: boolean) {
+    this.isMom = value;
   }
 
   getPlaceData = () => {
