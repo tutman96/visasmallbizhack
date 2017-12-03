@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GmapsService, Place } from '../services/gmaps.service';
 import { ApiService } from '../services/api.service';
 declare const google: any;
@@ -28,11 +28,34 @@ export class MapApiComponent implements OnInit {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private fb: FormBuilder,
+    private router: Router,
   ) {
     this.searchForm = this.fb.group({
       business: ['', Validators.required],
       zip: ['', Validators.required],
       radius: ['']
+    });
+
+    this.route.queryParams.subscribe((data) => {
+      console.log(data);
+      if (data.zip && data.business) {
+        this.getData(data.zip, data.business);
+        this.getVisaData(data.zip);
+        this.searchForm.patchValue(data);
+      }
+      else {
+        this.getData('30307', 'Sushi');
+        this.getVisaData('30307');
+        // this.searchForm.patchValue(data);
+        // if (data.zip && data.business) {
+        //   this.getData(data.zip, data.business);
+        //   this.getVisaData(data.zip);
+        //   this.searchForm.patchValue(data);
+        // }
+        // else {
+        //  this.router.navigate(['/']);
+        // }
+      }
     });
   }
 
@@ -134,12 +157,17 @@ export class MapApiComponent implements OnInit {
       ]
     });
     this.mapApi.setMap(this.map);
-    this.getData();
-    this.getVisaData();
+
   }
 
-  getData = () => {
-    this.mapApi.loadZipcodeGeometry('30341').subscribe((zipGeometry) => {
+  submitSearch = () => {
+    if (this.searchForm.valid) {
+      this.getData(this.searchForm.value.zip, this.searchForm.value.business);
+    }
+  }
+
+  getData = (zip: string, term: string) => {
+    this.mapApi.loadZipcodeGeometry(zip).subscribe((zipGeometry) => {
       this.map.setCenter(zipGeometry.location);
       this.map.fitBounds(zipGeometry.bounds);
 
@@ -208,8 +236,8 @@ export class MapApiComponent implements OnInit {
     this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
   }
 
-  getVisaData = () => {
-    this.apiService.getMeasurement('30307').subscribe((response) => {
+  getVisaData = (zip: string) => {
+    this.apiService.getMeasurement(zip).subscribe((response) => {
       this.visaData = response;
       this.prepPieChart(this.visaData.spendOutsideGeography);
     });
@@ -254,8 +282,8 @@ export class MapApiComponent implements OnInit {
   }
 
 
-  toggleDash  = () => {
-    this.showDash  = !this.showDash;
+  toggleDash = () => {
+    this.showDash = !this.showDash;
   }
 
 
