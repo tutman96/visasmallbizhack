@@ -17,8 +17,8 @@ import { ApiService } from './services/api.service';
 
 // Modules
 import { SharedModule } from 'primeng/primeng';
-import { DropdownModule } from 'primeng/primeng';
-import { AgmCoreModule } from '@agm/core';
+import { DropdownModule, ChartModule } from 'primeng/primeng';
+
 
 
 const appRoutes: Routes = [
@@ -53,13 +53,11 @@ const appRoutes: Routes = [
   imports: [
     SharedModule,
     DropdownModule,
+    ChartModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBAclDpl9PkAYOsKn420KeLCmctF_0Sjxk'
-    }),
     RouterModule.forRoot(
       appRoutes
     )
