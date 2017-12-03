@@ -15,70 +15,73 @@
         </form>
     </nav>
     <div #map id="googleMap"></div>
-    <div class="map-metrics">
-        <div class="dash-tab" (click)="toggleDash()">
-            <span class="top">
-                <i class="fa fa-angle-up" aria-hidden="true"></i>
-            </span>
-            <span class="bottom" *ngIf="!showDash">View More</span>
-            <span class="bottom" *ngIf="showDash">View Less</span>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm">
-                    <div class="map-output-tile">
-                        <h3>Transactions Growth</h3>
-                        <div class="amount-output" *ngIf="visaData">
-                            <span *ngIf="!transYoY" [class.postive]="visaData.salesTranCntGrowthMoM > 0">{{visaData.salesTranCntGrowthMoM | tofixed}}</span>
-                            <span *ngIf="transYoY" [class.postive]="visaData.salesTranCntGrowthYoY > 0">{{visaData.salesTranCntGrowthYoY | tofixed}}</span>%
-                        </div>
-                        <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
-                            <button type="button" class="btn" [class.active]="transYoY" (click)="toggleTrans(true)">Over Year</button>
-                            <button type="button" class="btn" [class.active]="!transYoY" (click)="toggleTrans(false)">Over Month</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="map-output-tile">
-                        <h3>Volume Growth</h3>
-                        <div class="amount-output" *ngIf="visaData">
-                            <span *ngIf="!salesYoY" [class.postive]="visaData.salesVolumeGrowthMoM > 0">{{visaData.salesVolumeGrowthMoM | tofixed}}</span>
-                            <span *ngIf="salesYoY" [class.postive]="visaData.salesVolumeGrowthYoY > 0">{{visaData.salesVolumeGrowthYoY | tofixed}}</span>%
-                        </div>
-                        <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
-                            <button type="button" class="btn" [class.active]="salesYoY" (click)="toggleSales(true)">Over Year</button>
-                            <button type="button" class="btn" [class.active]="!salesYoY" (click)="toggleSales(false)">Over Month</button>
+    <div class="dash-panel">
+        <div class="map-metrics">
+            <div class="dash-tab" (click)="toggleDash()">
+                <span class="top">
+                    <i class="fa fa-angle-up" aria-hidden="true" *ngIf="!showDash"></i>
+                    <i class="fa fa-angle-down" aria-hidden="true" *ngIf="showDash"></i>
+                </span>
+                <span class="bottom" *ngIf="!showDash">View More</span>
+                <span class="bottom" *ngIf="showDash">View Less</span>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="map-output-tile">
+                            <h3>Transactions Growth</h3>
+                            <div class="amount-output" *ngIf="visaData">
+                                <span *ngIf="!transYoY" [class.postive]="visaData.salesTranCntGrowthMoM > 0">{{visaData.salesTranCntGrowthMoM | tofixed}}</span>
+                                <span *ngIf="transYoY" [class.postive]="visaData.salesTranCntGrowthYoY > 0">{{visaData.salesTranCntGrowthYoY | tofixed}}</span>%
+                            </div>
+                            <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
+                                <button type="button" class="btn" [class.active]="transYoY" (click)="toggleTrans(true)">Over Year</button>
+                                <button type="button" class="btn" [class.active]="!transYoY" (click)="toggleTrans(false)">Over Month</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm">
-                    <div class="map-output-tile">
-                        <h3>Out Of Town Sales %</h3>
-                        <p-chart *ngIf="chartData" type="pie" [data]="chartData" [options]="chartOptions"></p-chart>
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="map-output-tile">
-                        <h3>Est Competitor Count</h3>
-                        <div class="amount-output">
-                            {{test.total}}
-                            <span *ngIf="test.total === 40">+</span>
+                    <div class="col-sm">
+                        <div class="map-output-tile">
+                            <h3>Volume Growth</h3>
+                            <div class="amount-output" *ngIf="visaData">
+                                <span *ngIf="!salesYoY" [class.postive]="visaData.salesVolumeGrowthMoM > 0">{{visaData.salesVolumeGrowthMoM | tofixed}}</span>
+                                <span *ngIf="salesYoY" [class.postive]="visaData.salesVolumeGrowthYoY > 0">{{visaData.salesVolumeGrowthYoY | tofixed}}</span>%
+                            </div>
+                            <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
+                                <button type="button" class="btn" [class.active]="salesYoY" (click)="toggleSales(true)">Over Year</button>
+                                <button type="button" class="btn" [class.active]="!salesYoY" (click)="toggleSales(false)">Over Month</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm">
-                    <div class="map-output-tile">
-                        <h3>Avg Competition Rating</h3>
-                        <div class="amount-output">
-                            {{ test.averageRating }}
-                            <span class="fa fa-star"></span>
+                    <div class="col-sm">
+                        <div class="map-output-tile">
+                            <h3>Out Of Town Sales %</h3>
+                            <p-chart *ngIf="chartData" type="pie" [data]="chartData" [options]="chartOptions"></p-chart>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="map-output-tile">
+                            <h3>Est Competitor Count</h3>
+                            <div class="amount-output">
+                                {{test.total}}
+                                <span *ngIf="test.total === 40">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="map-output-tile">
+                            <h3>Avg Competition Rating</h3>
+                            <div class="amount-output">
+                                {{ test.averageRating }}
+                                <span class="fa fa-star"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="dash-panel">
-        
+        <div class="dash-content">
+            Test
+        </div>
     </div>
 </div>
