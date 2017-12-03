@@ -1,7 +1,7 @@
 .background {
-    background-color: #1D1F36;
+    background-color: #111741;
     /* background-image:linear-gradient(#2B2E47, #0E0E24); */
-    background-image: radial-gradient(at top, #2B2E47, #0E0E24);
+    background-image: radial-gradient(at top, #192261, #0b102c);
     min-height: 100vh;
 }
 
