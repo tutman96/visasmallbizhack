@@ -18,22 +18,27 @@ function logResponseBody(response, body) {
 class UsbankAPIClient {
 	static async get<T>(path: string): Promise<T> {
 		
-		var headers = {};
-		headers['Content-Type'] = 'application/json';
-        headers['Accept'] = 'application/json';
-        	
+		// var headers = {};
+        // headers['Accept'] = 'application/json';
+		
 		return new Promise<T>((resolve, reject) => {
 			request({
 				uri : config.usbankUrl + path,
 				method : "GET",
-				headers: headers,
+				// headers: headers,
 				timeout: 30000
 			}, function(err, response, body) {
 				if (err) {
 					reject(err);
 				} 
 				else {
-					resolve(JSON.parse(body));
+					console.log(response.statusCode);
+					try {
+						resolve(JSON.parse(body));
+					}
+					catch (e) {
+						reject(e);
+					}
 				}
 			});	
 		})

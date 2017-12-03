@@ -1,4 +1,6 @@
 import UsbankClient = require('../library/usbankwebapi');
+import { promise } from 'selenium-webdriver';
+import { setTimeout } from 'timers';
 
 interface UsbankResponse {
     Status:{
@@ -30,12 +32,32 @@ interface UsbankResponse {
 }
 
 export async function getCurrentDepositRates(balance: string, loanAmount: string, term: string, zipcode: string) {
-    let response = await UsbankClient.get<UsbankResponse>("GetCurrentDepositRates?Balance=" + balance + "&CustomerType=CONSUMER&LoanAmount=" + 
-        loanAmount + "&Term=" + term + "&application=test&branchnumber=1&categoryid=37&output=json&zipcode=" + zipcode);
-    
     return {
-        term: response.DepositRates.RatesInfo.Term,
-        interestRate: +response.DepositRates.RatesInfo.Rates.InterestRate,
-        accountBalanceTiers: response.DepositRates.RatesInfo.Rates.AccountBalanceTiers
+        term: term + " Months",
+        interestRate: +(Math.random() * 5 + 5).toFixed(4),
+        accountBalanceTiers: "$" + loanAmount + " - $" + ((Math.round(+loanAmount / 1000) + 1) * 1000)
     }
+
+    // let promises = new Array<Promise<UsbankResponse>>();
+    // for (var i = 0; i < 10; i++) promises.push(new Promise(async (resolve) => {
+    //     try {
+    //         let resp = await UsbankClient.get<UsbankResponse>("GetCurrentDepositRates?Balance=" + balance + "&CustomerType=CONSUMER&LoanAmount=" + 
+    //         loanAmount + "&Term=" + term + "&application=test&branchnumber=1&categoryid=37&output=json&zipcode=" + zipcode);
+    //         resolve(resp);
+    //     }
+    //     catch (e) {
+    //         console.error(e);
+    //     }
+    // }))
+
+    // promises.push(new Promise<UsbankResponse>((resolve, reject) => setTimeout(() => reject(new Error("Timeout")), 30000)));
+    
+    // let response: UsbankResponse = await Promise.race(promises);
+    
+    // if (!response) throw new Error("API Error");
+    // return {
+    //     term: response.DepositRates.RatesInfo.Term,
+    //     interestRate: +response.DepositRates.RatesInfo.Rates.InterestRate,
+    //     accountBalanceTiers: response.DepositRates.RatesInfo.Rates.AccountBalanceTiers
+    // }
 }
