@@ -28,3 +28,12 @@
 h1.popupHeading {
     font-size: 1.2em;
 }
+
+.btn-success {
+    background-color: #70D56F;
+}
+
+.btn-gold {
+    background-color: #FBD110;
+    color: #192161;
+}
