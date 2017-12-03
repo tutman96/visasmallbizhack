@@ -105,47 +105,43 @@ export class MapApiComponent implements OnInit {
   }
 
   getData = () => {
-    this.mapApi.loadZipInfo('30307','chinese').subscribe((zipInfo) => {
-      this.map.setCenter(zipInfo.zipResult.geometry.location);
-      this.map.fitBounds(zipInfo.zipResult.geometry.bounds);
+    this.mapApi.loadZipcodeGeometry('30307').subscribe((zipGeometry) => {
+      this.map.setCenter(zipGeometry.location);
+      this.map.fitBounds(zipGeometry.bounds);
       
-      this.setMarkers(zipInfo.placesResult);
-      this.heatMap(zipInfo.placesResult);
+      this.mapApi.loadPlaces('chinese').subscribe((places) => {
+        this.setMarkers(places);
+        this.heatMap(places);
+      })
     })
   }
 
   setMarkers = (results: Place[]) => {
-    for (let i = 0; i < results.length; i++) {
-      console.log(results[i]);
-      this.createMarkers(results[i]);
-    }
+    results.forEach((place) => {
+      var marker = new google.maps.Marker({
+        map: this.map,
+        position: place.geometry.location,
+        title: place.name,
+        icon: '/assets/pin.svg'
+      });
+      var infowindow = new google.maps.InfoWindow({
+        content: `<div id="content">
+          <div id="siteNotice"></div>
+          <h1 id="firstHeading" class="popupHeading">${place.name}</h1>
+          <div id="bodyContent">
+            ${place.rating != null ? `Rating: ${place.rating}/5<br>` : ""}
+            ${(place.price_level != null ? "$".repeat(place.price_level) : "")}
+          </div>
+        </div>`
+      });
+      marker.addListener('click', () => {
+        if (this.openInfoWindow) this.openInfoWindow.close();
+        this.openInfoWindow = infowindow;
+        infowindow.open(this.map, marker);
+      });
+    })
   }
-
-  createMarkers = (place: Place) => {    
-    var marker = new google.maps.Marker({
-      map: this.map,
-      position: place.geometry.location,
-      title: place.name,
-      icon: '/assets/pin.svg'
-    });
-    var infowindow = new google.maps.InfoWindow({
-      content: `<div id="content">
-        <div id="siteNotice"></div>
-        <h1 id="firstHeading" class="popupHeading">${place.name}</h1>
-        <div id="bodyContent">
-          ${place.rating != null ? `Rating: ${place.rating}/5<br>` : ""}
-          ${(place.price_level != null ? "$".repeat(place.price_level) : "")}
-        </div>
-      </div>`
-    });
-    marker.addListener('click', () => {
-      if (this.openInfoWindow) this.openInfoWindow.close();
-      this.openInfoWindow = infowindow;
-      infowindow.open(this.map, marker);
-    });
-  }
-
-
+  
   heatMap = (data: Place[]) => {
     this.heatmap = new google.maps.visualization.HeatmapLayer({
       data: data.map((d) => d.geometry.location),
