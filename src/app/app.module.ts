@@ -15,10 +15,9 @@ import { HttpClient } from '@angular/common/http';
 import { NewMapComponent } from './new-map/new-map.component';
 
 import { ApiService } from './services/api.service';
-
 // Modules
 import { SharedModule } from 'primeng/primeng';
-import { DropdownModule, ChartModule } from 'primeng/primeng';
+import { DropdownModule, ChartModule, InputSwitchModule } from 'primeng/primeng';
 
 
 
@@ -59,6 +58,7 @@ const appRoutes: Routes = [
   imports: [
     SharedModule,
     DropdownModule,
+    InputSwitchModule,
     ChartModule,
     BrowserModule,
     HttpClientModule,

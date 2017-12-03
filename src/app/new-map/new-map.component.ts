@@ -36,20 +36,20 @@ export class NewMapComponent implements OnInit {
 
   getData = () => {
      const service = new google.maps.places.PlacesService(this.map);
-    this.mapApi.getZipInfo('30307').subscribe(
-      (response) => {
-        this.map.setCenter(response.geometry.location);
-        this.map.fitBounds(response.geometry.bounds);
-        service.nearbySearch({
-          location: response.geometry.location,
-          radius: 2500,
-          keyword: 'Chinese',
-          type: ['establishment']
-        }, (data) => {
-          this.setMarkers(data);
-          this.heatMap(data);
-        });
-      });
+    // this.mapApi.getZipInfo('30307').subscribe(
+    //   (response) => {
+    //     this.map.setCenter(response.geometry.location);
+    //     this.map.fitBounds(response.geometry.bounds);
+    //     service.nearbySearch({
+    //       location: response.geometry.location,
+    //       radius: 2500,
+    //       keyword: 'Chinese',
+    //       type: ['establishment']
+    //     }, (data) => {
+    //       this.setMarkers(data);
+    //       this.heatMap(data);
+    //     });
+    //   });
   }
 
   setupLayers = () => {

@@ -3,9 +3,25 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 declare const google: any;
+
+export interface Place {
+  name: string,
+  price_level: number,
+  rating: number,
+  geometry: any
+}
+
 @Injectable()
 export class GmapsService {
-  apikey: string = environment.gapikey;
+  public zipcodeGeometry: any;
+  public zipcodeName: string;
+
+  public placesInfo: Array<Place>;
+
+  private apikey: string = environment.gapikey;
+  private map: any;
+  private service: any;
+
   constructor(
     private http: HttpClient
   ) { }
@@ -14,17 +30,46 @@ export class GmapsService {
     return `https://maps.googleapis.com/maps/api${query}&key=${this.apikey}`;
   }
 
-  getZipInfo = (zip: string) => {
-    const geocoder = new google.maps.Geocoder();
-    const source = Observable.create((observer) => {
-      geocoder.geocode({'address': zip}, (results, status) => {
-        observer.next(results[0]);
-      });
-    });
-    return source;
+  setMap = (map: any) => {
+    this.map = map;
+    this.service = new google.maps.places.PlacesService(this.map);
   }
 
-  getPlaces = () => {
-    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDitlcYllb5lz5IHStWxVYjI0yQLQnrRYg');
+  loadZipcodeGeometry = (zip: string): Observable<any> => {
+    const geocoder = new google.maps.Geocoder();
+    return Observable.create((observer) => {
+      geocoder.geocode({ address: zip }, (geocoderResult, status) => {
+        console.log("geocoderResult[0]:", geocoderResult[0]);
+        this.zipcodeGeometry = geocoderResult[0].geometry;
+        this.zipcodeName = geocoderResult[0].formatted_address;
+        observer.next(this.zipcodeGeometry);
+      });
+    });
+  }
+
+  loadPlaces = (searchTerm: string): Observable<Array<Place>> => {
+    return Observable.create((observer) => {
+      if (this.zipcodeGeometry == null) throw new Error("zipcodeGeometry is null. call loadZipcodeGeometry");
+      if (this.map == null) throw new Error("map is null. call setMap");
+
+      this.service.nearbySearch({
+        location: this.zipcodeGeometry.location,
+        radius: 2500,
+        keyword: searchTerm,
+        type: ['restaurant']
+      }, (placesResult) => {
+        this.placesInfo = placesResult
+        observer.next(this.placesInfo);
+      });
+    })
+  }
+
+  getTopPlaces(num: number = 3): { total: number, places: Array<Place>, averageRating: number } {
+    if (this.placesInfo == null) throw new Error("placesInfo is null. call loadPlaces");
+    return {
+      total: this.placesInfo.length,
+      places: this.placesInfo.slice(0, num),
+      averageRating: this.placesInfo.reduce((total, place) => place.rating != null ? total + place.rating : total, 0) / this.placesInfo.length
+    }
   }
 }
