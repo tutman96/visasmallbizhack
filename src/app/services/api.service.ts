@@ -24,8 +24,8 @@ export class ApiService {
 			score: number
 		}>("/api/walkscore?lat=" + lat + "&long=" + lon)
 	}
-	
-	getDepositRates(balance:number, loanAmount: number, term: string, zipcode: string) {
+
+	getDepositRates(balance: number, loanAmount: number, term: string, zipcode: string) {
 		return this.http.get<{
 			term: string,
 			interestRate: number,
