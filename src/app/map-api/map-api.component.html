@@ -161,7 +161,7 @@
 
                     <div class="col-md-6">
 
-                        <div class="card">
+                        <div class="card loan-card">
                             <div class="card-title">
                                 <div class="logotitle">
                                     <span class="logo-title">
@@ -192,16 +192,16 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="row">Rate</th>
-                                                <!-- <td>{{currentRate.interestRate}}%</td> -->
-                                                <td>12%</td>
+                                                <!-- <td></td> -->
+                                                <td>{{currentRate.interestRate}}%</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Term</th>
-                                                <td>12 Months</td>
+                                                <td>{{currentRate.term}}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Account Balance Tiers</th>
-                                                <td>10,000 - 20,000</td>
+                                                <td>{{currentRate.accountBalanceTiers}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
