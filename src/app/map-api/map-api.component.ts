@@ -18,6 +18,8 @@ export class MapApiComponent implements OnInit {
   visaData: any = null;
   salesYoY: boolean = true;
   transYoY: boolean = true;
+  averageRating: any = 10;
+  test: any = 'test';
   constructor(
     private mapApi: GmapsService,
     private route: ActivatedRoute,
@@ -29,7 +31,7 @@ export class MapApiComponent implements OnInit {
       zip: ['', Validators.required],
       radius: ['']
     });
-   }
+  }
 
   ngOnInit() {
     this.map = new google.maps.Map(document.getElementById('googleMap'), {
@@ -37,7 +39,7 @@ export class MapApiComponent implements OnInit {
       scaleControl: false,
       mapTypeControl: false,
       streetViewControl: false,
-      fullscreenControl: false,      
+      fullscreenControl: false,
       styles: [
         // {
         //   featureType: 'poi.business',
@@ -139,10 +141,11 @@ export class MapApiComponent implements OnInit {
       this.map.fitBounds(zipGeometry.bounds);
 
       this.mapApi.loadPlaces('chinese').subscribe((places) => {
+        this.getPlaceData();
         this.setMarkers(places);
         this.heatMap(places);
-      })
-    })
+      });
+    });
   }
 
   setMarkers = (results: Place[]) => {
@@ -214,6 +217,10 @@ export class MapApiComponent implements OnInit {
 
   toggleTrans = (value: boolean) => {
     this.transYoY = value;
+  }
+
+  getPlaceData = () => {
+    this.test = this.mapApi.getTopPlaces(4);
   }
 
 

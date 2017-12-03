@@ -15,14 +15,18 @@
 </nav>
 <div #map id="googleMap"></div>
 <div class="map-metrics">
+    <div class="dash-tab">
+        <span class="top"><i class="fa fa-angle-up" aria-hidden="true"></i></span>
+        <span class="bottom">View More</span>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm">
                 <div class="map-output-tile">
                     <h3>Transactions Growth</h3>
-                    <div class="amount-output">
-                        <span *ngIf="!transYoY" [class.postive]="visaData.salesTranCntGrowthMoM > 0">{{visaData.salesTranCntGrowthMoM}}</span>
-                        <span *ngIf="transYoY" [class.postive]="visaData.salesTranCntGrowthYoY > 0">{{visaData.salesTranCntGrowthYoY}}</span>%
+                    <div class="amount-output" *ngIf="visaData">
+                        <span *ngIf="!transYoY" [class.postive]="visaData.salesTranCntGrowthMoM > 0">{{visaData.salesTranCntGrowthMoM | tofixed}}</span>
+                        <span *ngIf="transYoY" [class.postive]="visaData.salesTranCntGrowthYoY > 0">{{visaData.salesTranCntGrowthYoY | tofixed}}</span>%
                     </div>
                     <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
                         <button type="button" class="btn" [class.active]="transYoY" (click)="toggleTrans(true)">Over Year</button>
@@ -33,9 +37,9 @@
             <div class="col-sm">
                 <div class="map-output-tile">
                     <h3>Volume Growth</h3>
-                    <div class="amount-output">
-                        <span *ngIf="!salesYoY" [class.postive]="visaData.salesVolumeGrowthMoM > 0">{{visaData.salesVolumeGrowthMoM}}</span>
-                        <span *ngIf="salesYoY" [class.postive]="visaData.salesVolumeGrowthYoY > 0">{{visaData.salesVolumeGrowthYoY}}</span>%
+                    <div class="amount-output" *ngIf="visaData">
+                        <span *ngIf="!salesYoY" [class.postive]="visaData.salesVolumeGrowthMoM > 0">{{visaData.salesVolumeGrowthMoM | tofixed}}</span>
+                        <span *ngIf="salesYoY" [class.postive]="visaData.salesVolumeGrowthYoY > 0">{{visaData.salesVolumeGrowthYoY | tofixed}}</span>%
                     </div>
                     <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
                         <button type="button" class="btn" [class.active]="salesYoY" (click)="toggleSales(true)">Over Year</button>
@@ -48,9 +52,10 @@
             </div>
             <div class="col-sm">
                 <div class="map-output-tile">
-                    <h3>Possible Number Of Competitors</h3>
+                    <h3>Est Competitor Count</h3>
                     <div class="amount-output">
-                        12
+                        {{test.total}}
+                        <span *ngIf="test.total === 40">+</span>
                     </div>
                 </div>
             </div>
@@ -58,9 +63,10 @@
                 <div class="map-output-tile">
                     <h3>Avg Competition Rating</h3>
                     <div class="amount-output">
-                        12
-                        <span><i class="fa fa-star" aria-hidden="true"></i></span>
+                        {{ test.averageRating }}
+                        <span class="fa fa-star"></span>
                     </div>
+                    
                 </div>
             </div>
         </div>
