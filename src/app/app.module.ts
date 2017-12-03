@@ -60,6 +60,7 @@ const appRoutes: Routes = [
     DropdownModule,
     InputSwitchModule,
     ChartModule,
+    DropdownModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,

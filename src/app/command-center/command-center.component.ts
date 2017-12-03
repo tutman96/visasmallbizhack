@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DropdownModule, ChartModule } from 'primeng/primeng';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-command-center',
@@ -21,6 +22,7 @@ export class CommandCenterComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private api: ApiService
   ) {
     this.searchForm = this.fb.group({
       business: ['', Validators.required],
@@ -29,25 +31,29 @@ export class CommandCenterComponent implements OnInit {
     });
 
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: [
+        'Average Transaction Frequencey',
+        'Sales Transaction Count Growth MoM',
+        'Sales Transaction Count Growth YoY',
+        'Sales Volume Growth MoM',
+        'Sales Volume Growth YoY',
+        'Spend Outside Geography'
+      ],
       datasets: [
           {
               label: 'First Dataset',
-              data: [65, 59, 80, 81, 56, 55, 40],
+              data: [4.75, 7.4982, -5.9569, 7.2337, -31.7596, 24.94],
               fill: false,
               borderColor: '#4bc0c0'
-          },
-          {
-              label: 'Second Dataset',
-              data: [28, 48, 40, 19, 86, 27, 90],
-              fill: false,
-              borderColor: '#565656'
           }
       ]
-  }
+    };
    }
 
   ngOnInit() {
+    this.api.getMeasurement('30044').subscribe( result => {
+      console.log(result);
+    });
   }
 
   changeRadius(radius: string) {
