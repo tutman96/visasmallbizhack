@@ -88,12 +88,20 @@ export class MapApiComponent implements OnInit {
       radius: ['']
     });
 
+    this.loanForm = this.fb.group({
+      balance: ['', Validators.required],
+      loanAmount: ['', Validators.required],
+      zip:['', Validators.required],
+      term: ['']
+    });
+
     this.route.queryParams.subscribe((data) => {
       console.log(data);
       if (data.zip && data.business) {
         this.getData(data.zip, data.business);
         this.getVisaData(data.zip);
         this.searchForm.patchValue(data);
+        this.loanForm.patchValue(data);
       }
       else {
         this.getData('30307', 'Sushi');
@@ -270,8 +278,8 @@ export class MapApiComponent implements OnInit {
     }
   }
 
-  onSubmitLoan(controls) {
-    this.apiService.getDepositRates(controls.balance, controls.loanAmount, controls.term, controls.zipcode).subscribe(rate => {
+  onSubmitLoan() {
+    this.apiService.getDepositRates(this.loanForm.value.balance , this.loanForm.value.loanAmount, this.loanForm.value.term, this.loanForm.value.zipcode).subscribe(rate => {
       console.log(rate);
     });
   }
