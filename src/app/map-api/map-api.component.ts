@@ -3,6 +3,8 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { GmapsService, Place } from '../services/gmaps.service';
 import { ApiService } from '../services/api.service';
+import _ from 'lodash';
+
 declare const google: any;
 @Component({
   selector: 'app-map-api',
@@ -22,17 +24,75 @@ export class MapApiComponent implements OnInit {
   chartOptions: any;
   averageRating: any = 10;
   test: any = 'test';
+
+  // dash stuff
+  loanForm: FormGroup;
+  formData;
+  allMMData = {};
+  isYoy = true;
+  isMom = false;
+  finished = false;
+  finishedWalk = false;
+  walkGrade: string;
+  data = {
+    labels: [
+      'Sales Volume Growth YoY',
+      'Sales Transaction Count Growth YoY',
+      'Spend Outside Geography',
+      'Average Transaction Frequencey'
+    ],
+    datasets: [
+        {
+            label: '',
+            data: [],
+            fill: false,
+            borderColor: '#4bc0c0'
+        }
+    ]
+  };
+  options = {
+    title: {
+        display: false,
+        text: 'My Title',
+        fontSize: 16
+    },
+    legend: {
+        display: false
+    }
+  };
+  walk = {
+    labels: [],
+    datasets: [
+        {
+            data: [],
+            backgroundColor: [
+                "#70D56F"
+            ],
+            hoverBackgroundColor: [
+                "#70D56F"
+            ]
+        }]
+  };
+
   constructor(
     private changeRef: ChangeDetectorRef,
     private mapApi: GmapsService,
     private route: ActivatedRoute,
     private apiService: ApiService,
     private fb: FormBuilder,
+    private api: ApiService,
+    private gapi: GmapsService,
   ) {
     this.searchForm = this.fb.group({
       business: ['', Validators.required],
       zip: ['', Validators.required],
       radius: ['']
+    });
+    this.loanForm = this.fb.group({
+      balance: ['', Validators.required],
+      loanAmount: ['', Validators.required],
+      term: ['', Validators.required],
+      zipcode: ['', Validators.required],
     });
   }
 
@@ -136,6 +196,70 @@ export class MapApiComponent implements OnInit {
     this.mapApi.setMap(this.map);
     this.getData();
     this.getVisaData();
+
+    this.api.getMeasurement('30044').subscribe( result => {
+      this.allMMData = result;
+      this.setBatGraph();
+    });
+
+    // Walkability Pie
+    this.api.getWalkability(33.749249, -84.387314).subscribe(data => {
+      const rate = data.score;
+      this.walk.datasets[0].data.push(rate);
+      const total = 100 - rate;
+      this.walk.datasets[0].data.push(total);
+      this.finishedWalk = true;
+
+      if ( rate <= 25 ) {
+        this.walkGrade = 'Bad :(';
+      }else if (rate >= 25 && rate <= 50) {
+        this.walkGrade = 'Poor';
+      }else if (rate >= 51 && rate <= 75) {
+        this.walkGrade = 'Good';
+      }else if(rate >= 75) {
+        this.walkGrade = 'Great!';
+      }
+    });
+  }
+
+  setBatGraph() {
+    if (this.isYoy) {
+      _.forEach(this.allMMData, (value, label) => {
+        const yoy = _.endsWith(label, 'YoY');
+        const other = _.endsWith(label, 'y');
+        if (yoy || other) {
+          this.data.datasets[0].data.push(value);
+        }
+        this.finished = true;
+      });
+    }else if (this.isMom) {
+      _.forEach(this.allMMData, (value, label) => {
+        const yoy = _.endsWith(label, 'MoM');
+        const other = _.endsWith(label, 'y');
+        if (yoy || other) {
+          this.data.datasets[0].data.push(value);
+        }
+        this.finished = true;
+      });
+    }
+  }
+
+  toggleBar(type: string) {
+    if(type === 'yoy') {
+      this.isYoy = true;
+      this.isMom = false;
+      this.setBatGraph();
+    }else {
+      this.isYoy = false;
+      this.isMom = true;
+      this.setBatGraph();
+    }
+  }
+
+  onSubmitLoan(controls) {
+    this.api.getDepositRates(controls.balance, controls.loanAmount, controls.term, controls.zipcode).subscribe(rate => {
+      console.log(rate);
+    });
   }
 
   getData = () => {
