@@ -94,11 +94,12 @@
                                     <p>Merchant Measurement</p>
                                 </div>
                                 <div class="btn-group toggledashbtn" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn" [class.active]="toggleBarYoM" (click)="toggleBarYoM(true)">Year</button>
-                                    <button type="button" class="btn" [class.active]="!toggleBarYoM" (click)="toggleBarMoM(false)">Month</button>
+                                    <button type="button" class="btn" [class.active]="toggleBarY" (click)="toggleBar(true)">Year</button>
+                                    <button type="button" class="btn" [class.active]="!toggleBarY" (click)="toggleBar(false)">Month</button>
                                 </div>
                             </div>
-                            <p-chart *ngIf="finished" type="horizontalBar" [options]="options" [data]="data" [width]="100" [height]="50"></p-chart>
+                            <p-chart *ngIf="finished && toggleBarY" type="horizontalBar" [options]="options" [data]="yData" [width]="100" [height]="50"></p-chart>
+                            <p-chart *ngIf="finished && !toggleBarY" type="horizontalBar" [options]="options" [data]="mData" [width]="100" [height]="50"></p-chart>
                         </div>
                         <div class="card mt-4">
                             <div class="card-title">
