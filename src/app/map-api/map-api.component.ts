@@ -14,7 +14,7 @@ export class MapApiComponent implements OnInit {
   map: any;
   heatmap: any;
   openInfoWindow: any;
-  
+
   constructor(
     private mapApi: GmapsService,
     private route: ActivatedRoute,
@@ -28,86 +28,99 @@ export class MapApiComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.map = new google.maps.Map(document.getElementById('googleMap'), { 
+    this.map = new google.maps.Map(document.getElementById('googleMap'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scaleControl: false,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,      
       styles: [
-        {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-        {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-        {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+        // {
+        //   featureType: 'poi.business',
+        //   stylers: [{ visibility: 'off' }]
+        // },
+        // {
+        //   featureType: 'transit',
+        //   elementType: 'labels.icon',
+        //   stylers: [{ visibility: 'off' }]
+        // },
+        { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+        { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+        { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
         {
           featureType: 'administrative.locality',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#d59563'}]
+          stylers: [{ color: '#d59563' }]
         },
         {
           featureType: 'poi',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#d59563'}]
+          stylers: [{ color: '#d59563' }]
         },
         {
           featureType: 'poi.park',
           elementType: 'geometry',
-          stylers: [{color: '#263c3f'}]
+          stylers: [{ color: '#263c3f' }]
         },
         {
           featureType: 'poi.park',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#6b9a76'}]
+          stylers: [{ color: '#6b9a76' }]
         },
         {
           featureType: 'road',
           elementType: 'geometry',
-          stylers: [{color: '#38414e'}]
+          stylers: [{ color: '#38414e' }]
         },
         {
           featureType: 'road',
           elementType: 'geometry.stroke',
-          stylers: [{color: '#212a37'}]
+          stylers: [{ color: '#212a37' }]
         },
         {
           featureType: 'road',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#9ca5b3'}]
+          stylers: [{ color: '#9ca5b3' }]
         },
         {
           featureType: 'road.highway',
           elementType: 'geometry',
-          stylers: [{color: '#746855'}]
+          stylers: [{ color: '#746855' }]
         },
         {
           featureType: 'road.highway',
           elementType: 'geometry.stroke',
-          stylers: [{color: '#1f2835'}]
+          stylers: [{ color: '#1f2835' }]
         },
         {
           featureType: 'road.highway',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#f3d19c'}]
+          stylers: [{ color: '#f3d19c' }]
         },
         {
           featureType: 'transit',
           elementType: 'geometry',
-          stylers: [{color: '#2f3948'}]
+          stylers: [{ color: '#2f3948' }]
         },
         {
           featureType: 'transit.station',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#d59563'}]
+          stylers: [{ color: '#d59563' }]
         },
         {
           featureType: 'water',
           elementType: 'geometry',
-          stylers: [{color: '#17263c'}]
+          stylers: [{ color: '#17263c' }]
         },
         {
           featureType: 'water',
           elementType: 'labels.text.fill',
-          stylers: [{color: '#515c6d'}]
+          stylers: [{ color: '#515c6d' }]
         },
         {
           featureType: 'water',
           elementType: 'labels.text.stroke',
-          stylers: [{color: '#17263c'}]
+          stylers: [{ color: '#17263c' }]
         }
       ]
     });
@@ -116,10 +129,10 @@ export class MapApiComponent implements OnInit {
   }
 
   getData = () => {
-    this.mapApi.loadZipcodeGeometry('30307').subscribe((zipGeometry) => {
+    this.mapApi.loadZipcodeGeometry('30341').subscribe((zipGeometry) => {
       this.map.setCenter(zipGeometry.location);
       this.map.fitBounds(zipGeometry.bounds);
-      
+
       this.mapApi.loadPlaces('chinese').subscribe((places) => {
         this.setMarkers(places);
         this.heatMap(places);
@@ -133,7 +146,10 @@ export class MapApiComponent implements OnInit {
         map: this.map,
         position: place.geometry.location,
         title: place.name,
-        icon: '/assets/pin.svg'
+        icon: {
+          url: '/assets/pin.svg',
+          anchor: new google.maps.Point(15, 15)
+        }
       });
       var infowindow = new google.maps.InfoWindow({
         content: `<div id="content">
@@ -152,8 +168,9 @@ export class MapApiComponent implements OnInit {
       });
     })
   }
-  
+
   heatMap = (data: Place[]) => {
+    if (this.heatmap) this.heatmap.setMap(null);
     this.heatmap = new google.maps.visualization.HeatmapLayer({
       data: data.map((d) => d.geometry.location),
       opacity: 0.5,
@@ -161,7 +178,7 @@ export class MapApiComponent implements OnInit {
       dissipating: false,
       map: this.map
     });
-    
+
     var gradient = [
       "rgba(102, 255, 0, 0)",
       "rgba(102, 255, 0, 1)",
@@ -171,7 +188,7 @@ export class MapApiComponent implements OnInit {
       "rgba(244, 227, 0, 1)",
       "rgba(249, 198, 0, 1)",
       "#FFC200",
-      "#FF7100" 
+      "#FF7100"
     ]
     this.heatmap.set('gradient', this.heatmap.get('gradient') ? null : gradient);
   }
