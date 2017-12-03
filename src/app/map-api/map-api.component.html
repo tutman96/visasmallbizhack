@@ -80,127 +80,155 @@
         </div>
       </div>
     </div>
-    <div class="dash-content">
-      <div class="container pt-5">
-        <h5>Dashboard</h5>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-title">
-                <div class="logotitle">
-                  <span class="logo-title">
-                    <img src="../../assets/visa-logo.png" height="10" width="40">
-                  </span>
-                  <p>Merchant Measurement</p>
-                </div>
-                <div class="btn-group toggledashbtn" role="group" aria-label="Basic example">
-                  <button type="button" class="btn" [class.active]="isYoy" (click)="toggleBarYoY(true)">Year</button>
-                  <button type="button" class="btn" [class.active]="!isYoy" (click)="toggleBarMoM(false)">Month</button>
-                </div>
-              </div>
-              <p-chart *ngIf="finished" type="horizontalBar" [options]="options" [data]="data" [width]="100" [height]="50"></p-chart>
-            </div>
-            <div *ngIf="test" class="card mt-4">
-              <div class="card-title">
-                <div style="display: flex;">
-                  <span class="logo-title">
-                    <img src="../../assets/trophy.svg" height="20" width="40">
-                  </span>
-                  <p>Competition</p>
-                </div>
-              </div>
-              <div class="card-title">
-                <div>
-                  <h1>{{test.total}}</h1>
-                  <p>Total Competitors</p>
-                </div>
-                <div>
-                  <h1>{{test.averageRating}}
-                    <span class="fa fa-star"></span>
-                  </h1>
-                  <p>Avg. Competitor Rating</p>
-                </div>
-              </div>
-              <p>TOP 4 COMPETITORS</p>
-              <div>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">NAME</th>
-                      <th scope="col">RATING</th>
-                      <th scope="col">PRICE POINT</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngFor="let joint of test.places">
-                    <tr>
-                      <td>{{joint.name}}</td>
-                      <td>{{joint.rating}}
-                        <span style="font-size: 20px;" class="fa fa-star"></span>
-                      </td>
-                      <td>$$$</td>
-                    </tr>
-                    <!-- <tr>
-                      <td>Thai Kitchen</td>
-                      <td>2.5
-                        <span style="font-size: 20px;" class="fa fa-star"></span>
-                      </td>
-                      <td>$$</td>
-                    </tr>
-                    <tr>
-                      <td>Ru Sans Sushi</td>
-                      <td>2.5
-                        <span style="font-size: 20px;" class="fa fa-star"></span>
-                      </td>
-                      <td>$$$$</td>
-                    </tr> -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-title">
-                <p>Loan Calculator</p>
-              </div>
-              <div class="row">
-                <div class="loanForm col-md-6">
-                  <form [formGroup]="loanForm" novalidate (ngSubmit)="onSubmitLoan()">
-                    <div class="form-group">
-                      <input class="form-control" type="number" formControlName="balance" placeholder="Balance">
-                      <input class="form-control mt-2" type="number" formControlName="loanAmount" placeholder="Loan Amount">
-                      <input class="form-control mt-2" type="text" formControlName="term" placeholder="Term">
-                      <input class="form-control mt-2" type="text" formControlName="zip" placeholder="Zipcode">
-                      <button class="btn btn-gold my-2 my-sm-0" type="submit">Submit</button>
+        <div class="dash-content">
+            <div class="container pt-5">
+                <h5>Dashboard</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-title">
+                                <div class="logotitle">
+                                    <span class="logo-title">
+                                        <img src="../../assets/visa-logo.png" height="10" width="40">
+                                    </span>
+                                    <p>Merchant Measurement</p>
+                                </div>
+                                <div class="btn-group toggledashbtn" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn" [class.active]="toggleBarYoM" (click)="toggleBarYoM(true)">Year</button>
+                                    <button type="button" class="btn" [class.active]="!toggleBarYoM" (click)="toggleBarMoM(false)">Month</button>
+                                </div>
+                            </div>
+                            <p-chart *ngIf="finished" type="horizontalBar" [options]="options" [data]="data" [width]="100" [height]="50"></p-chart>
+                        </div>
+                        <div *ngIf="test" class="card mt-4">
+                                <div class="card-title">
+                                  <div style="display: flex;">
+                                    <span class="logo-title">
+                                      <img src="../../assets/trophy.svg" height="20" width="40">
+                                    </span>
+                                    <p>Competition</p>
+                                  </div>
+                                </div>
+                                <div class="card-title">
+                                  <div>
+                                    <h1>{{test.total}}</h1>
+                                    <p>Total Competitors</p>
+                                  </div>
+                                  <div>
+                                    <h1>{{test.averageRating}}
+                                      <span class="fa fa-star"></span>
+                                    </h1>
+                                    <p>Avg. Competitor Rating</p>
+                                  </div>
+                                </div>
+                                <p>TOP 4 COMPETITORS</p>
+                                <div>
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">RATING</th>
+                                        <th scope="col">PRICE POINT</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody *ngFor="let joint of test.places">
+                                      <tr>
+                                        <td>{{joint.name}}</td>
+                                        <td>{{joint.rating}}
+                                          <span style="font-size: 20px;" class="fa fa-star"></span>
+                                        </td>
+                                        <td>$$$</td>
+                                      </tr>
+                                      <!-- <tr>
+                                        <td>Thai Kitchen</td>
+                                        <td>2.5
+                                          <span style="font-size: 20px;" class="fa fa-star"></span>
+                                        </td>
+                                        <td>$$</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Ru Sans Sushi</td>
+                                        <td>2.5
+                                          <span style="font-size: 20px;" class="fa fa-star"></span>
+                                        </td>
+                                        <td>$$$$</td>
+                                      </tr> -->
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
                     </div>
-                  </form>
+
+                    <div class="col-md-6">
+
+                        <div class="card loan-card">
+                            <div class="card-title">
+                                <div class="logotitle">
+                                    <span class="logo-title">
+                                        <img src="../../assets/usbank-logo.png" height="10" width="40">
+                                    </span>
+                                    <p>US Bank Loan Calculator</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="loanForm col-md-12" *ngIf="!currentRate">
+                                    <form [formGroup]="loanForm" novalidate (ngSubmit)="onSubmitLoan()">
+                                        <div class="form-group">
+                                            <input class="form-control mt-2" type="number" formControlName="loanAmount" placeholder="Loan Amount">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control mt-2" type="text" formControlName="term" placeholder="Term">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control mt-2" type="text" formControlName="zip" placeholder="Zipcode">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-gold" type="submit" [disabled]="!loanForm.valid">Get Estimate</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="loanInfo col-md-12" *ngIf="currentRate">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Rate</th>
+                                                <!-- <td></td> -->
+                                                <td>{{currentRate.interestRate}}%</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Term</th>
+                                                <td>{{currentRate.term}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Account Balance Tiers</th>
+                                                <td>{{currentRate.accountBalanceTiers}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <a href="https://www.usbank.com/small-business/credit-financing/business-loans.html" class="btn btn-gold">Apply</a>
+                                    <button type="button" class="btn btn-blue" (click)="resetLoanEst()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-title">
+                                <div class="logotitle">
+                                    <span class="logo-title">
+                                        <img src="../../assets/wow.svg" height="20" width="40">
+                                    </span>
+                                    <p>Walkability</p>
+                                </div>
+                            </div>
+                            <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk"></p-chart>
+                            <div style="text-align:center;">
+                                <h1>{{walk.datasets[0].data[0]}}%</h1>
+                                <p>{{walkGrade}}</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="loanInfo col-md-6">
-                  <h1>5.1%</h1>
-                  <p>Interest Rate</p>
-                  <a>Apply</a>
-                </div>
-              </div>
             </div>
-            <div class="card mt-4">
-              <div class="card-title">
-                <div class="logotitle">
-                  <span class="logo-title">
-                    <img src="../../assets/wow.svg" height="20" width="40">
-                  </span>
-                  <p>Walkability</p>
-                </div>
-              </div>
-              <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk"></p-chart>
-              <div style="text-align:center;">
-                <h1>{{walk.datasets[0].data[0]}}%</h1>
-                <p>{{walkGrade}}</p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

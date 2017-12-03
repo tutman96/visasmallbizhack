@@ -3,17 +3,17 @@ import winston = require('winston');
 import expressWinston = require('express-winston');
 
 var app = express();
-app.use(expressWinston.logger({
-	transports: [
-		new winston.transports.Console({
-			json: true,
-			colorize: true
-		})
-	],
-	msg: "HTTP {{req.method}} {{req.url}}",
-	expressFormat: true,
-	colorize: true,
-}));
+// app.use(expressWinston.logger({
+// 	transports: [
+// 		new winston.transports.Console({
+// 			json: true,
+// 			colorize: true
+// 		})
+// 	],
+// 	msg: "HTTP {{req.method}} {{req.url}}",
+// 	expressFormat: true,
+// 	colorize: true,
+// }));
 
 const asyncMiddleware = fn =>
 	(req, res, next) => {
@@ -64,14 +64,14 @@ app.get("/api/walkscore", asyncMiddleware(async (req, res) => {
 	});
 }))
 
-app.use(expressWinston.errorLogger({
-	transports: [
-		new winston.transports.Console({
-			json: true,
-			colorize: true
-		})
-	]
-}));
+// app.use(expressWinston.errorLogger({
+// 	transports: [
+// 		new winston.transports.Console({
+// 			json: true,
+// 			colorize: true
+// 		})
+// 	]
+// }));
 app.listen(8080, () => {
 	console.log("Express app listening on port 8080");
 })

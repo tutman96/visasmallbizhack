@@ -22,7 +22,7 @@ export class MapApiComponent implements OnInit {
   showDash: boolean = false;
   chartData: any;
   chartOptions: any;
-  averageRating: any = 10;
+  currentRate: any = null;
   test: any = 'test';
 
   // dash stuff
@@ -91,10 +91,9 @@ export class MapApiComponent implements OnInit {
     });
 
     this.loanForm = this.fb.group({
-      balance: ['', Validators.required],
       loanAmount: ['', Validators.required],
-      zip: ['', Validators.required],
-      term: ['']
+      zip:['', Validators.required],
+      term: ['', Validators.required]
     });
 
     this.route.queryParams.subscribe((data) => {
@@ -282,9 +281,15 @@ export class MapApiComponent implements OnInit {
 
 
   onSubmitLoan() {
-    this.apiService.getDepositRates(this.loanForm.value.balance , this.loanForm.value.loanAmount, this.loanForm.value.term, this.loanForm.value.zipcode).subscribe(rate => {
-      console.log(rate);
+    this.apiService.getDepositRates(10000 , this.loanForm.value.loanAmount, this.loanForm.value.term, this.loanForm.value.zip).subscribe(rate => {
+     this.currentRate = rate;
+     console.log(this.currentRate);
     });
+  }
+
+  resetLoanEst = () => {
+    this.loanForm.reset();
+    this.currentRate = null;
   }
 
   submitSearch = () => {
