@@ -30,6 +30,6 @@ export class ApiService {
 			term: string,
 			interestRate: number,
 			accountBalanceTiers: string
-		}>("/api/visa/merchant-measurement?balance=" + balance + "&loanAmount=" + loanAmount + "&term=" + term + "&zipcode=" + zipcode)
+		}>("/api/usbank/deposit-rates?balance=" + balance + "&loanAmount=" + loanAmount + "&term=" + term + "&zipcode=" + zipcode)
 	}
 }

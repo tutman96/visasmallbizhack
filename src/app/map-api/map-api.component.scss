@@ -12,6 +12,13 @@
 .btn-gold {
     background-color: #FBD110;
     color: #192161;
+    // font-weight: bold;
+}
+
+.btn-blue {
+    background-color:  #192161;
+    color: #FFF;
+    // font-weight: bold;
 }
 
 .input-group {
@@ -129,6 +136,14 @@
         border-top-left-radius: 0;
         border-bottom-right-radius: 5px;
         border-bottom-left-radius: 5px;
+    }
+}
+
+.loanInfo {
+    h5 {
+        font-size: .8rem;
+        font-weight: bold;
+        text-transform: uppercase;
     }
 }
 
