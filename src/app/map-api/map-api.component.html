@@ -1,8 +1,8 @@
 <div class="dash-wrap" [class.dash-active]="showDash">
     <nav class="navbar navbar-dark map-nav">
         <a class="navbar-brand" href="/">
-            <img src="/assets/ScoutLogo.svg" height="30" class="d-inline-block align-top" alt="">
-            <!-- <span class="brand-text">Scout V1</span> -->
+            <img src="/assets/map.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+            <span class="brand-text">Scout V1</span>
         </a>
         <form class="form-inline" [formGroup]="searchForm" novalidate (ngSubmit)="submitSearch()">
             <div class="input-group mb-2 mb-sm-0">
@@ -81,40 +81,44 @@
             </div>
         </div>
         <div class="dash-content">
-                <div class="container pt-5">
-                        <h5>Dashboard</h5>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="card">
-                              <div class="card-title">
-                                  <div class="logotitle">
-                                      <span class="logo-title">
-                                          <img src="../../assets/visa-logo.png" height="10" width="40">
-                                      </span>
-                                      <p>Merchant Measurement</p>
-                                  </div>
+            <div class="container pt-5">
+                <h5>Dashboard</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-title">
+                                <div class="logotitle">
+                                    <span class="logo-title">
+                                        <img src="../../assets/visa-logo.png" height="10" width="40">
+                                    </span>
+                                    <p>Merchant Measurement</p>
+                                </div>
                                 <div class="btn-group toggledashbtn" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn" [class.active]="transYoY">Year</button>
-                                    <button type="button" class="btn" [class.active]="!transYoY">Month</button>
+                                    <button type="button" class="btn" [class.active]="toggleBarYoM" (click)="toggleBarYoM(true)">Year</button>
+                                    <button type="button" class="btn" [class.active]="!toggleBarYoM" (click)="toggleBarMoM(false)">Month</button>
                                 </div>
                             </div>
-                            <div class="card mt-4">
-                              <div class="card-title">
-                                  <div style="display: flex;">
-                                        <span class="logo-title">
-                                            <img src="../../assets/trophy.svg" height="30" width="40">
-                                        </span>
-                                        <p>Competition</p>
-                                  </div>
-                              </div>
-                              <div class="card-title">
+                            <p-chart *ngIf="finished" type="horizontalBar" [options]="options" [data]="data" [width]="100" [height]="50"></p-chart>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-title">
+                                <div style="display: flex;">
+                                    <span class="logo-title">
+                                        <img src="../../assets/trophy.svg" height="20" width="40">
+                                    </span>
+                                    <p>Competition</p>
+                                </div>
+                            </div>
+                            <div class="card-title">
                                 <div>
                                     <h1>38</h1>
                                     <p>Total Competitors</p>
                                 </div>
                                 <div>
-                                  <h1>4.5 <span class="fa fa-star"></span></h1>
-                                  <p>Avg. Competitor Rating</p>
+                                    <h1>4.5
+                                        <span class="fa fa-star"></span>
+                                    </h1>
+                                    <p>Avg. Competitor Rating</p>
                                 </div>
                             </div>
                             <p>TOP 3 COMPETITORS</p>
@@ -129,19 +133,25 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                          <td>China Star</td>
-                                          <td>2.5 <span style="font-size: 20px;" class="fa fa-star"></span></td>
-                                          <td>$$$</td>
+                                            <td>China Star</td>
+                                            <td>2.5
+                                                <span style="font-size: 20px;" class="fa fa-star"></span>
+                                            </td>
+                                            <td>$$$</td>
                                         </tr>
                                         <tr>
-                                          <td>Thai Kitchen</td>
-                                          <td>2.5 <span style="font-size: 20px;" class="fa fa-star"></span></td>
-                                          <td>$$</td>
+                                            <td>Thai Kitchen</td>
+                                            <td>2.5
+                                                <span style="font-size: 20px;" class="fa fa-star"></span>
+                                            </td>
+                                            <td>$$</td>
                                         </tr>
                                         <tr>
-                                          <td>Ru Sans Sushi</td>
-                                          <td>2.5 <span style="font-size: 20px;" class="fa fa-star"></span></td>
-                                          <td>$$$$</td>
+                                            <td>Ru Sans Sushi</td>
+                                            <td>2.5
+                                                <span style="font-size: 20px;" class="fa fa-star"></span>
+                                            </td>
+                                            <td>$$$$</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -150,22 +160,34 @@
                     </div>
 
                     <div class="col-md-6">
+
                         <div class="card">
                             <div class="card-title">
-                                <p>Loan Calculator</p>
+                                <div class="logotitle">
+                                    <span class="logo-title">
+                                        <img src="../../assets/usbank-logo.png" height="10" width="40">
+                                    </span>
+                                    <p>US Bank Loan Calculator</p>
+                                </div>
                             </div>
                             <div class="row">
-                                <!-- <div class="loanForm col-md-6">
+                                <div class="loanForm col-md-12" *ngIf="!currentRate">
                                     <form [formGroup]="loanForm" novalidate (ngSubmit)="onSubmitLoan()">
                                         <div class="form-group">
                                             <input class="form-control mt-2" type="number" formControlName="loanAmount" placeholder="Loan Amount">
+                                        </div>
+                                        <div class="form-group">
                                             <input class="form-control mt-2" type="text" formControlName="term" placeholder="Term">
+                                        </div>
+                                        <div class="form-group">
                                             <input class="form-control mt-2" type="text" formControlName="zip" placeholder="Zipcode">
-                                            <button class="btn btn-gold" type="submit" [disabled]="!loanForm.valid">Get Eistmate</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-gold" type="submit" [disabled]="!loanForm.valid">Get Estimate</button>
                                         </div>
                                     </form>
-                                </div> -->
-                                <div class="loanInfo col-md-12">
+                                </div>
+                                <div class="loanInfo col-md-12" *ngIf="currentRate">
                                     <table class="table">
                                         <tbody>
                                             <tr>
@@ -185,44 +207,27 @@
                                     </table>
                                     <a href="https://www.usbank.com/small-business/credit-financing/business-loans.html" class="btn btn-gold">Apply</a>
                                     <button type="button" class="btn btn-blue" (click)="resetLoanEst()">Reset</button>
-                                    <!-- <ul class="list-group" *ngIf="currentRate">
-                                        <li class="list-group-item">
-                                            <h5 class="mb-1">Rate</h5>
-                                            
-                                        </li>
-                                        <li class="list-group-item">
-                                            <h5 class="mb-1">Term</h5>
-                                            {{currentRate.term}}
-                                        </li>
-                                        <li class="list-group-item">
-                                            <h5 class="mb-1">Account Balance Tiers</h5>
-                                            {{currentRate.accountBalanceTiers}}
-                                        </li>
-                                    </ul> -->
                                 </div>
                             </div>
-                            <div class="card mt-4">
-                              <div class="card-title">
-                                    <div class="logotitle">
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-title">
+                                <div class="logotitle">
                                     <span class="logo-title">
-                                        <img src="../../assets/wow.svg" height="30" width="40">
+                                        <img src="../../assets/wow.svg" height="20" width="40">
                                     </span>
                                     <p>Walkability</p>
-                                    </div>
-                              </div>
-                              <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk"></p-chart>
-                              <div style="text-align:center;">
-                                    <h1>{{walk.datasets[0].data[0]}}%</h1>
-                                    <p>{{walkGrade}}</p>
-                              </div>
+                                </div>
                             </div>
-                            <h1>{{walk.datasets[0].data[0]}}%</h1>
-                            <p>{{walkGrade}}</p>
                             <p-chart *ngIf="finishedWalk" type="doughnut" [data]="walk"></p-chart>
+                            <div style="text-align:center;">
+                                <h1>{{walk.datasets[0].data[0]}}%</h1>
+                                <p>{{walkGrade}}</p>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
