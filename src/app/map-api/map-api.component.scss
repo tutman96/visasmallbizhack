@@ -1,0 +1,44 @@
+.map-nav {
+    background: #192161;
+    font-family: 'Raleway', sans-serif;
+    border-bottom: 3px solid #FBD110;
+}
+
+.brand-text {
+    font-weight: bold;
+    padding-left:10px;
+}
+
+.input-group {
+    margin-right: 10px;
+}
+
+#googleMap {
+    width:100vw;
+    height: calc(100vh - 300px);
+}
+
+.map-metrics {
+    padding-top: 25px;
+}
+
+.amount-output {
+    text-align: center;
+    font-size: 60px;
+    font-weight: 700;
+}
+
+.toggle-inputs {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.map-output-tile {
+    h3 {
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+    }
+}

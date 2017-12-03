@@ -15,5 +15,53 @@
 </nav>
 <div #map id="googleMap"></div>
 <div class="map-metrics">
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                <div class="map-output-tile">
+                    <h3>Transactions Growth</h3>
+                    <div class="amount-output">
+                        <span *ngIf="!transYoY" [class.postive]="visaData.salesTranCntGrowthMoM > 0">{{visaData.salesTranCntGrowthMoM}}</span>
+                        <span *ngIf="transYoY" [class.postive]="visaData.salesTranCntGrowthYoY > 0">{{visaData.salesTranCntGrowthYoY}}</span>%
+                    </div>
+                    <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
+                        <button type="button" class="btn" [class.active]="transYoY" (click)="toggleTrans(true)">Over Year</button>
+                        <button type="button" class="btn" [class.active]="!transYoY" (click)="toggleTrans(false)">Over Month</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="map-output-tile">
+                    <h3>Volume Growth</h3>
+                    <div class="amount-output">
+                        <span *ngIf="!salesYoY" [class.postive]="visaData.salesVolumeGrowthMoM > 0">{{visaData.salesVolumeGrowthMoM}}</span>
+                        <span *ngIf="salesYoY" [class.postive]="visaData.salesVolumeGrowthYoY > 0">{{visaData.salesVolumeGrowthYoY}}</span>%
+                    </div>
+                    <div class="btn-group toggle-inputs" role="group" aria-label="Basic example">
+                        <button type="button" class="btn" [class.active]="salesYoY" (click)="toggleSales(true)">Over Year</button>
+                        <button type="button" class="btn" [class.active]="!salesYoY" (click)="toggleSales(false)">Over Month</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                Graph
+            </div>
+            <div class="col-sm">
+                <div class="map-output-tile">
+                    <h3>Possible Number Of Competitors</h3>
+                    <div class="amount-output">
+                        12
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="map-output-tile">
+                    <h3>Avg Competition Rating</h3>
+                    <div class="amount-output">
+                        12
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

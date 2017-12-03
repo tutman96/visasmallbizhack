@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GmapsService, Place } from '../services/gmaps.service';
+import { ApiService } from '../services/api.service';
 declare const google: any;
 @Component({
   selector: 'app-map-api',
   templateUrl: './map-api.component.html',
-  styleUrls: ['./map-api.component.css']
+  styleUrls: ['./map-api.component.scss']
 })
 export class MapApiComponent implements OnInit {
   @ViewChild('map') mapel: ElementRef;
@@ -14,10 +15,13 @@ export class MapApiComponent implements OnInit {
   map: any;
   heatmap: any;
   openInfoWindow: any;
-
+  visaData: any = null;
+  salesYoY: boolean = true;
+  transYoY: boolean = true;
   constructor(
     private mapApi: GmapsService,
     private route: ActivatedRoute,
+    private apiService: ApiService,
     private fb: FormBuilder,
   ) {
     this.searchForm = this.fb.group({
@@ -126,6 +130,7 @@ export class MapApiComponent implements OnInit {
     });
     this.mapApi.setMap(this.map);
     this.getData();
+    this.getVisaData();
   }
 
   getData = () => {
@@ -196,6 +201,22 @@ export class MapApiComponent implements OnInit {
   toggleHeat = () => {
     this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
   }
+
+  getVisaData = () => {
+    this.apiService.getMeasurement('30307').subscribe((response) => {
+      this.visaData = response;
+    });
+  }
+
+  toggleSales = (value: boolean) => {
+    this.salesYoY = value;
+  }
+
+  toggleTrans = (value: boolean) => {
+    this.transYoY = value;
+  }
+
+
 }
 
 
