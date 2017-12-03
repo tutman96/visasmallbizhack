@@ -40,7 +40,7 @@ export class CommandCenterComponent implements OnInit {
             label: '',
             data: [],
             fill: false,
-            borderColor: '#4bc0c0'
+            borderColor: '#192161'
         }
     ]
   };
@@ -60,7 +60,8 @@ export class CommandCenterComponent implements OnInit {
     },
     legend: {
         display: false
-    }
+    },
+    backgroundColor: '#192161'
   };
 
   walk = {
@@ -121,7 +122,6 @@ export class CommandCenterComponent implements OnInit {
         this.walkGrade = 'Great!';
       }
     });
-
   }
 
   setBatGraph() {

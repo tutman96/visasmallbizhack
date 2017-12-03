@@ -84,14 +84,16 @@
                 <div class="container pt-5">
                         <h5>Dashboard</h5>
                         <div class="row">
-                      
                           <div class="col-md-6">
                             <div class="card">
                               <div class="card-title">
-                                <p>Merchant Measurement</p>
-                                <div class="btn-group">
-                                  <button (click)="toggleBar('yoy')">Year</button>
-                                  <button (click)="toggleBar('mom')">Month</button>
+                                  <div class="logotitle">
+                                      <img src="../../assets/visa-logo.png" height="10" width="40">
+                                      <p>Merchant Measurement</p>
+                                  </div>
+                                <div class="btn-group toggledashbtn" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn" [class.active]="transYoY">Year</button>
+                                    <button type="button" class="btn" [class.active]="!transYoY">Month</button>
                                 </div>
                               </div>
                               <p-chart *ngIf="finished" type="horizontalBar" [options]="options" [data]="data" [width]="100" [height]="50"></p-chart>
