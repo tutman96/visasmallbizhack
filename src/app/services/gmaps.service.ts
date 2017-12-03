@@ -3,9 +3,29 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 declare const google: any;
+
+export interface Place {
+  name: string,
+  price_level: number,
+  rating: number,
+  geometry: any
+}
+
+export interface ZipInfo {
+  zipResult: {
+    geometry: any
+  },
+  placesResult: Array<Place>
+}
+
 @Injectable()
 export class GmapsService {
-  apikey: string = environment.gapikey;
+  public zipInfo: ZipInfo;
+
+  private apikey: string = environment.gapikey;
+  private map: any;
+  private service: any;
+
   constructor(
     private http: HttpClient
   ) { }
@@ -14,14 +34,29 @@ export class GmapsService {
     return `https://maps.googleapis.com/maps/api${query}&key=${this.apikey}`;
   }
 
-  getZipInfo = (zip: string) => {
+  setMap = (map: any) => {
+    this.map = map;
+    this.service = new google.maps.places.PlacesService(this.map);
+  }
+
+  loadZipInfo = (zip: string, searchTerm: string): Observable<ZipInfo> => {
     const geocoder = new google.maps.Geocoder();
-    const source = Observable.create((observer) => {
-      geocoder.geocode({'address': zip}, (results, status) => {
-        observer.next(results[0]);
+    return Observable.create((observer) => {
+      geocoder.geocode({ address: zip }, (geocoderResult, status) => {
+        this.service.nearbySearch({
+          location: geocoderResult[0].geometry.location,
+          radius: 2500,
+          keyword: 'searchTerm',
+          type: ['restaurant']
+        }, (placesResult) => {
+          this.zipInfo = {
+            zipResult: geocoderResult[0],
+            placesResult: placesResult
+          }
+          observer.next(this.zipInfo);
+        });
       });
     });
-    return source;
   }
 
   getPlaces = () => {

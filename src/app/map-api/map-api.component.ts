@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { GmapsService } from '../services/gmaps.service';
+import { GmapsService, Place } from '../services/gmaps.service';
 declare const google: any;
 @Component({
   selector: 'app-map-api',
@@ -10,6 +10,8 @@ export class MapApiComponent implements OnInit {
   @ViewChild('map') mapel: ElementRef;
   map: any;
   heatmap: any;
+  openInfoWindow: any;
+  
   constructor(
     private mapApi: GmapsService
   ) { }
@@ -98,35 +100,28 @@ export class MapApiComponent implements OnInit {
         }
       ]
     });
+    this.mapApi.setMap(this.map);
     this.getData();
   }
 
   getData = () => {
-    const service = new google.maps.places.PlacesService(this.map);
-    this.mapApi.getZipInfo('30307').subscribe(
-      (response) => {
-        this.map.setCenter(response.geometry.location);
-        this.map.fitBounds(response.geometry.bounds);
-        service.nearbySearch({
-          location: response.geometry.location,
-          radius: 2500,
-          keyword: 'Chinese',
-          type: ['establishment']
-        }, (data) => {
-          this.setMarkers(data);
-          this.heatMap(data);
-        });
-      });
+    this.mapApi.loadZipInfo('30307','chinese').subscribe((zipInfo) => {
+      this.map.setCenter(zipInfo.zipResult.geometry.location);
+      this.map.fitBounds(zipInfo.zipResult.geometry.bounds);
+      
+      this.setMarkers(zipInfo.placesResult);
+      this.heatMap(zipInfo.placesResult);
+    })
   }
 
-  setMarkers = (results: any[]) => {
+  setMarkers = (results: Place[]) => {
     for (let i = 0; i < results.length; i++) {
       console.log(results[i]);
       this.createMarkers(results[i]);
     }
   }
 
-  createMarkers = (place: any) => {    
+  createMarkers = (place: Place) => {    
     var marker = new google.maps.Marker({
       map: this.map,
       position: place.geometry.location,
@@ -137,21 +132,23 @@ export class MapApiComponent implements OnInit {
       content: `<div id="content">
         <div id="siteNotice"></div>
         <h1 id="firstHeading" class="popupHeading">${place.name}</h1>
+        <div id="bodyContent">
+          ${place.rating != null ? `Rating: ${place.rating}/5<br>` : ""}
+          ${(place.price_level != null ? "$".repeat(place.price_level) : "")}
+        </div>
       </div>`
     });
-    marker.addListener('click', function () {
+    marker.addListener('click', () => {
+      if (this.openInfoWindow) this.openInfoWindow.close();
+      this.openInfoWindow = infowindow;
       infowindow.open(this.map, marker);
     });
   }
 
 
-  heatMap = (data: any[]) => {
-    const heatmapData = [];
-    for (let i = 0; i < data.length; i++) {
-      heatmapData.push(data[i].geometry.location);
-    }
+  heatMap = (data: Place[]) => {
     this.heatmap = new google.maps.visualization.HeatmapLayer({
-      data: heatmapData,
+      data: data.map((d) => d.geometry.location),
       opacity: 0.5,
       radius: 0.02,
       dissipating: false,
@@ -168,7 +165,7 @@ export class MapApiComponent implements OnInit {
       "rgba(249, 198, 0, 1)",
       "#FFC200",
       "#FF7100" 
-    ]//ffac00
+    ]
     this.heatmap.set('gradient', this.heatmap.get('gradient') ? null : gradient);
   }
 
